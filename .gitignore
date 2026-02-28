@@ -27,3 +27,12 @@ dist-ssr
 docs/
 CLAUDE.md
 .claude/
+
+*storybook.log
+storybook-static
+
+# Vite deps cache
+.vite/
+
+# WSL Windows artifacts
+*.Zone.Identifier
