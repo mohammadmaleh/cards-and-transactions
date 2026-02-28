@@ -1,6 +1,6 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Card } from "../../types/card";
-import { getCards } from "../../services/cards";
+import { getCards } from "../../services";
 
 export const cardsApi = createApi({
   reducerPath: "cardsApi",
