@@ -1,6 +1,6 @@
 import { getTransactions } from "./transactions";
 
-const PRIVATE_CARD_ID = "lkmfkl-mlfkm-dlkfm";
+const PRIVATE_CARD_ID = "a1b2c3d4-0001-4e5f-8a9b-c0d1e2f30001";
 
 describe("getTransactions", () => {
   beforeEach(() => {

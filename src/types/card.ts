@@ -1,4 +1,7 @@
+export type CardType = "private" | "business"
+
 export interface Card {
-  id: string;
-  description: string;
+  id: string
+  type: CardType
+  iban: string
 }

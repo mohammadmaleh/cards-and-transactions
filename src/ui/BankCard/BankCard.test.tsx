@@ -6,8 +6,8 @@ import { BankCard } from "./BankCard"
 const REVEAL_DURATION_MS = 30_000
 
 const defaultProps = {
-  name: "Private Card",
-  cardId: "lkmfkl-mlfkm-dlkfm",
+  type: "private" as const,
+  iban: "DE89 3704 0044 0532 0130 00",
   selected: false,
   onSelect: vi.fn(),
 }
@@ -25,46 +25,51 @@ afterEach(() => {
 })
 
 describe("BankCard", () => {
-  it("renders the card name", () => {
+  it("renders the card label derived from type", () => {
     render(<BankCard {...defaultProps} />)
     expect(screen.getByText("Private Card")).toBeInTheDocument()
   })
 
-  it("masks the card ID by default", () => {
-    render(<BankCard {...defaultProps} />)
-    expect(screen.getByText("•••• •••• •••• lkfm")).toBeInTheDocument()
-    expect(screen.queryByText("lkmfkl-mlfkm-dlkfm")).not.toBeInTheDocument()
+  it("renders Business Card label for business type", () => {
+    render(<BankCard {...defaultProps} type="business" />)
+    expect(screen.getByText("Business Card")).toBeInTheDocument()
   })
 
-  it("reveals the card ID when show button is clicked", async () => {
+  it("masks the IBAN by default", () => {
+    render(<BankCard {...defaultProps} />)
+    expect(screen.getByText("•••• •••• •••• 3000")).toBeInTheDocument()
+    expect(screen.queryByText("DE89 3704 0044 0532 0130 00")).not.toBeInTheDocument()
+  })
+
+  it("reveals the IBAN when show button is clicked", async () => {
     render(<BankCard {...defaultProps} />)
     await userEvent.click(screen.getByRole("button", { name: "Show card number" }))
-    expect(screen.getByText("lkmfkl-mlfkm-dlkfm")).toBeInTheDocument()
+    expect(screen.getByText("DE89 3704 0044 0532 0130 00")).toBeInTheDocument()
   })
 
-  it("hides the card ID when hide button is clicked after reveal", async () => {
+  it("hides the IBAN when hide button is clicked after reveal", async () => {
     render(<BankCard {...defaultProps} />)
     await userEvent.click(screen.getByRole("button", { name: "Show card number" }))
     await userEvent.click(screen.getByRole("button", { name: "Hide card number" }))
-    expect(screen.queryByText("lkmfkl-mlfkm-dlkfm")).not.toBeInTheDocument()
+    expect(screen.queryByText("DE89 3704 0044 0532 0130 00")).not.toBeInTheDocument()
   })
 
-  it("auto-hides the card ID after 30 seconds", () => {
+  it("auto-hides the IBAN after 30 seconds", () => {
     vi.useFakeTimers()
 
     render(<BankCard {...defaultProps} />)
     fireEvent.click(screen.getByRole("button", { name: "Show card number" }))
-    expect(screen.getByText("lkmfkl-mlfkm-dlkfm")).toBeInTheDocument()
+    expect(screen.getByText("DE89 3704 0044 0532 0130 00")).toBeInTheDocument()
 
     act(() => vi.advanceTimersByTime(REVEAL_DURATION_MS))
 
-    expect(screen.queryByText("lkmfkl-mlfkm-dlkfm")).not.toBeInTheDocument()
+    expect(screen.queryByText("DE89 3704 0044 0532 0130 00")).not.toBeInTheDocument()
   })
 
-  it("copies the card ID to clipboard when copy button is clicked", async () => {
+  it("copies the IBAN to clipboard when copy button is clicked", async () => {
     render(<BankCard {...defaultProps} />)
     await userEvent.click(screen.getByRole("button", { name: "Copy card number" }))
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("lkmfkl-mlfkm-dlkfm")
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("DE89 3704 0044 0532 0130 00")
   })
 
   it("shows copied confirmation after copy", async () => {

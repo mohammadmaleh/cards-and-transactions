@@ -1,1 +1,1 @@
-export { cardsApi, useGetCardsQuery } from "./cards.api";
+export { CardCarousel } from "./CardCarousel/CardCarousel"

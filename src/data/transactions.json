@@ -1,41 +1,39 @@
 {
-  "lkmfkl-mlfkm-dlkfm": [
-    {
-      "id": "lkmlk-5kkm5-55gg",
-      "amount": 123.88,
-      "description": "Food"
-    },
-    {
-      "id": "43mm3-lkm4-55gg",
-      "amount": 33.48,
-      "description": "Snack"
-    },
-    {
-      "id": "eefe-5kkm5-ffeefe",
-      "amount": 288.38,
-      "description": "Tickets"
-    }
+  "a1b2c3d4-0001-4e5f-8a9b-c0d1e2f30001": [
+    { "id": "t0001-0001", "amount": 67.30, "description": "Rewe" },
+    { "id": "t0001-0002", "amount": 12.90, "description": "Subway" },
+    { "id": "t0001-0003", "amount": 288.00, "description": "Lufthansa Ticket" },
+    { "id": "t0001-0004", "amount": 9.99, "description": "Netflix" },
+    { "id": "t0001-0005", "amount": 43.50, "description": "Apotheke" },
+    { "id": "t0001-0006", "amount": 8.40, "description": "Bäckerei Müller" },
+    { "id": "t0001-0007", "amount": -50.00, "description": "Ticket Refund" }
   ],
-  "elek-n3lk-4m3lk4": [
-    {
-      "id": "lkmlk-5kkm5-55gg",
-      "amount": 21.88,
-      "description": "T-Shirt"
-    },
-    {
-      "id": "43mm3-lkm4-55gg",
-      "amount": 533.48,
-      "description": "Smart Phone"
-    },
-    {
-      "id": "eefe-5kkm5-ffeefe",
-      "amount": 2.58,
-      "description": "Chocolate Bar"
-    },
-    {
-      "id": "4332-5kkm5-ffeefe",
-      "amount": -100.00,
-      "description": "Refund for Smart Phone"
-    }
+  "a1b2c3d4-0002-4e5f-8a9b-c0d1e2f30002": [
+    { "id": "t0002-0001", "amount": 219.00, "description": "Hotel Berlin" },
+    { "id": "t0002-0002", "amount": 534.90, "description": "MacBook Charger" },
+    { "id": "t0002-0003", "amount": 29.99, "description": "Adobe Subscription" },
+    { "id": "t0002-0004", "amount": 88.00, "description": "Client Dinner" },
+    { "id": "t0002-0005", "amount": 149.00, "description": "Conference Ticket" },
+    { "id": "t0002-0006", "amount": -219.00, "description": "Hotel Refund" },
+    { "id": "t0002-0007", "amount": 14.50, "description": "DB Ticket" },
+    { "id": "t0002-0008", "amount": 3200.00, "description": "Flight to NYC" }
+  ],
+  "a1b2c3d4-0003-4e5f-8a9b-c0d1e2f30003": [
+    { "id": "t0003-0001", "amount": 49.99, "description": "Fitnessstudio" },
+    { "id": "t0003-0002", "amount": 22.80, "description": "Aldi" },
+    { "id": "t0003-0003", "amount": 15.00, "description": "Spotify" },
+    { "id": "t0003-0004", "amount": 120.00, "description": "Zalando" },
+    { "id": "t0003-0005", "amount": -120.00, "description": "Zalando Rückgabe" },
+    { "id": "t0003-0006", "amount": 6.80, "description": "Kaffee & Co" },
+    { "id": "t0003-0007", "amount": 350.00, "description": "iPhone Case" }
+  ],
+  "a1b2c3d4-0004-4e5f-8a9b-c0d1e2f30004": [
+    { "id": "t0004-0001", "amount": 980.00, "description": "AWS Invoice" },
+    { "id": "t0004-0002", "amount": 59.00, "description": "GitHub Copilot" },
+    { "id": "t0004-0003", "amount": 1250.00, "description": "Figma Enterprise" },
+    { "id": "t0004-0004", "amount": 430.00, "description": "Trade Fair Stand" },
+    { "id": "t0004-0005", "amount": -430.00, "description": "Trade Fair Refund" },
+    { "id": "t0004-0006", "amount": 75.00, "description": "Taxi to Airport" },
+    { "id": "t0004-0007", "amount": 18.90, "description": "Office Supplies" }
   ]
 }

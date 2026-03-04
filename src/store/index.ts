@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector } from "react-redux";
-import { cardsApi } from "../features/cards";
-import { transactionsApi } from "../features/transactions";
+import { cardsApi } from "./cards/cards.api";
+import { transactionsApi } from "./transactions/transactions.api";
 
 export const store = configureStore({
   reducer: {
@@ -22,3 +22,9 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppSelector = useSelector.withTypes<RootState>();
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+
+export { cardsApi, useGetCardsQuery } from "./cards/cards.api";
+export {
+  transactionsApi,
+  useGetTransactionsQuery,
+} from "./transactions/transactions.api";
