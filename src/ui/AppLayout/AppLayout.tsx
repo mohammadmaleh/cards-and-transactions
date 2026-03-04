@@ -1,7 +1,8 @@
 import { Menu, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router";
-import { SidebarNav } from "./SidebarNav/SidebarNav";
+import { Button } from "../Button/Button";
+import { SidebarNav } from "./SidenarNav/SidebarNav";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -16,15 +17,19 @@ function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="flex min-h-screen">
-      <aside className="fixed left-0 top-0 hidden h-screen w-52 flex-col border-r bg-white md:flex">
-        <div className="flex items-center justify-center border-b p-4">
+      <aside
+        className="fixed left-0 top-0 hidden h-screen w-52 flex-col border-r bg-white md:flex"
+        aria-label="Sidebar"
+      >
+        <div className="flex items-center justify-center border-b px-4 py-6">
           <Link to="/" aria-label="DKB Home">
             <img
               src="/dkb-logo.webp"
-              alt="DKB — Das kann Bank logo"
-              className="w-20"
+              alt=""
+              aria-hidden="true"
               width={80}
               height={26}
+              className="w-20"
             />
           </Link>
         </div>
@@ -36,26 +41,28 @@ function AppLayout({ children }: AppLayoutProps) {
           <Link to="/" aria-label="DKB Home">
             <img
               src="/dkb-logo.webp"
-              alt="DKB — Das kann Bank logo"
-              className="w-12"
+              alt="DKB — Das kann Bank"
               width={48}
               height={16}
+              className="w-12"
             />
           </Link>
-          <button
-            type="button"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="rounded-md p-1.5 focus-visible:outline-2 focus-visible:outline-sky-400"
           >
             {menuOpen ? (
               <X size={20} aria-hidden="true" />
             ) : (
               <Menu size={20} aria-hidden="true" />
             )}
-          </button>
+          </Button>
         </header>
 
         {menuOpen && (
