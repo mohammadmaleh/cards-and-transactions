@@ -9,9 +9,9 @@ type TransactionItemProps = {
 function TransactionItem({ description, amount }: TransactionItemProps) {
   const formatted = formatAmount(amount)
   const isExpense = formatted.startsWith("-")
-  const isRefund = formatted.startsWith("+")
+  const isCredit = formatted.startsWith("+")
 
-  const type = isExpense ? "expense" : isRefund ? "refund" : "amount"
+  const type = isExpense ? "expense" : isCredit ? "credit" : "amount"
   const absoluteFormatted = formatted.replace(/^[+\-−]/, "")
 
   return (
@@ -25,7 +25,7 @@ function TransactionItem({ description, amount }: TransactionItemProps) {
         className={cn(
           "text-sm font-semibold tabular-nums",
           isExpense && "text-destructive",
-          isRefund && "text-emerald-600 dark:text-emerald-400"
+          isCredit && "text-emerald-600 dark:text-emerald-400"
         )}
       >
         {formatted}
