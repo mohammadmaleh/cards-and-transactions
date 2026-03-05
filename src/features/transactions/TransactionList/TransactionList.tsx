@@ -67,10 +67,8 @@ const TransactionList = (): ReactNode => {
       <div
         className="max-h-120 overflow-y-auto rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         tabIndex={0}
-        role="region"
-        aria-label="Transactions"
       >
-        <ul className="flex flex-col gap-3 p-0.5">
+        <ul role="list" className="flex flex-col gap-3 p-0.5">
           {filteredTransactions.map((transaction) => (
             <TransactionItem
               description={transaction.description}
