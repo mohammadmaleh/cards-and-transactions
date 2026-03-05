@@ -23,14 +23,13 @@ describe("getCards", () => {
     expect(cards.length).toBeGreaterThan(0);
   });
 
-  it("returns cards with id, type, and iban as strings", async () => {
+  it("returns cards with id and type as strings", async () => {
     const promise = getCards();
     vi.runAllTimers();
     const cards = await promise;
     for (const card of cards) {
       expect(typeof card.id).toBe("string");
       expect(typeof card.type).toBe("string");
-      expect(typeof card.iban).toBe("string");
     }
   });
 });

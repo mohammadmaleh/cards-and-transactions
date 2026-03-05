@@ -3,25 +3,21 @@ export const CARDS = {
     id: "a1b2c3d4-0001-4e5f-8a9b-c0d1e2f30001",
     type: "private" as const,
     label: "Private Card",
-    iban: "DE89 3704 0044 0532 0130 00",
   },
   BUSINESS_1: {
     id: "a1b2c3d4-0002-4e5f-8a9b-c0d1e2f30002",
     type: "business" as const,
     label: "Business Card",
-    iban: "DE12 5004 0000 0600 0178 00",
   },
   PRIVATE_2: {
     id: "a1b2c3d4-0003-4e5f-8a9b-c0d1e2f30003",
     type: "private" as const,
     label: "Private Card",
-    iban: "DE91 1004 0000 0123 4567 89",
   },
   BUSINESS_2: {
     id: "a1b2c3d4-0004-4e5f-8a9b-c0d1e2f30004",
     type: "business" as const,
     label: "Business Card",
-    iban: "DE75 7002 0070 0010 1111 11",
   },
 } as const;
 

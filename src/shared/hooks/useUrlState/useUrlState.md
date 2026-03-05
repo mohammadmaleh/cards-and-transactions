@@ -55,4 +55,4 @@ setFilter(null);                // removes ?filter from URL
 
 ## Security
 
-Never pass sensitive values (card numbers, IBANs, CVV) as the `key` or `value`. URL params appear in browser history, server logs, and referrer headers.
+Never pass sensitive values (card numbers, CVV) as the `key` or `value`. URL params appear in browser history, server logs, and referrer headers.

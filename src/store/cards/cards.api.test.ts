@@ -4,8 +4,8 @@ import { cardsApi } from "./cards.api";
 
 const { mockCards } = vi.hoisted(() => ({
   mockCards: [
-    { id: "card-1", type: "private" as const, iban: "DE89 3704 0044 0532 0130 00" },
-    { id: "card-2", type: "business" as const, iban: "DE12 5004 0000 0600 0178 00" },
+    { id: "card-1", type: "private" as const },
+    { id: "card-2", type: "business" as const },
   ],
 }));
 

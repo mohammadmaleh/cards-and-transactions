@@ -10,8 +10,8 @@ const { card1Transactions, card2Transactions } = vi.hoisted(() => ({
 
 vi.mock("@/services", () => ({
   getCards: vi.fn().mockResolvedValue([
-    { id: "card-1", type: "private", iban: "DE89 3704 0044 0532 0130 00" },
-    { id: "card-2", type: "business", iban: "DE12 5004 0000 0600 0178 00" },
+    { id: "card-1", type: "private" },
+    { id: "card-2", type: "business" },
   ]),
   getTransactions: vi.fn().mockImplementation((cardId: string) => {
     if (cardId === "card-1") return Promise.resolve(card1Transactions);
