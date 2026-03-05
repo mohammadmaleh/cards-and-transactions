@@ -33,6 +33,7 @@ storybook-static
 
 # Vite deps cache
 .vite/
+coverage/
 
 # Playwright output
 playwright-report/
