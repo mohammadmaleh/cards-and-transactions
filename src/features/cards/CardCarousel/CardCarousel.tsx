@@ -79,7 +79,7 @@ function CardCarousel() {
   }
 
   return (
-    <section aria-label="Your cards">
+    <section>
       <fieldset className="m-0 border-0 p-0">
         <legend className="sr-only">Select a card</legend>
         <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1">

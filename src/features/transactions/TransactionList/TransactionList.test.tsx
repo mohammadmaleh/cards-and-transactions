@@ -20,7 +20,7 @@ describe("TransactionList", () => {
   it("shows a loading skeleton when no card is selected", () => {
     renderWithProviders(<TransactionList />, { initialUrl: "/" })
     expect(
-      screen.getByRole("region", { name: "Loading transactions" })
+      screen.getByRole("status", { name: "Loading transactions" })
     ).toBeInTheDocument()
   })
 

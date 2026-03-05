@@ -12,7 +12,7 @@ function TransactionItem({ description, amount }: TransactionItemProps) {
   const isRefund = formatted.startsWith("+")
 
   return (
-    <div className="flex items-center justify-between rounded-xl bg-muted px-5 py-4">
+    <li className="flex items-center justify-between rounded-xl bg-muted px-5 py-4">
       <span className="text-sm font-medium text-foreground">{description}</span>
       <span
         className={cn(
@@ -24,7 +24,7 @@ function TransactionItem({ description, amount }: TransactionItemProps) {
       >
         {formatted}
       </span>
-    </div>
+    </li>
   )
 }
 
