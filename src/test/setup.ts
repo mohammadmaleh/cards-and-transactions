@@ -33,6 +33,9 @@ class ResizeObserverMock {
 
 global.ResizeObserver = ResizeObserverMock;
 
+Element.prototype.scrollIntoView = vi.fn();
+
+
 Element.prototype.getBoundingClientRect = vi.fn().mockReturnValue({
   height: 500,
   width: 600,
