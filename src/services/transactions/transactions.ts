@@ -1,5 +1,5 @@
 import type { Transaction } from "@/types";
-import transactionsData from "../../data/transactions.json";
+import transactionsData from "@/data/transactions.json";
 
 const transactionsMap = transactionsData as Record<
   string,
