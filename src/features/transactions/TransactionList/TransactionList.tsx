@@ -6,7 +6,7 @@ import { TransactionItem } from "./TransactionItem/TransactionItem";
 
 function TransactionListSkeleton() {
   return (
-    <div role="status" aria-label="Loading transactions" aria-busy="true">
+    <div data-testid="transaction-loading" role="status" aria-label="Loading transactions" aria-busy="true">
       <div className="flex flex-col gap-3">
         {Array.from({ length: 3 }, (_, i) => (
           <Skeleton key={i} className="h-14" />
@@ -38,7 +38,7 @@ const TransactionList = (): ReactNode => {
 
   if (isError) {
     return (
-      <p role="alert" className="text-sm text-destructive">
+      <p data-testid="transaction-error" role="alert" className="text-sm text-destructive">
         Failed to load transactions. Please try again.
       </p>
     );
@@ -51,7 +51,7 @@ const TransactionList = (): ReactNode => {
         : "No transactions found for this card.";
 
     return (
-      <p className="text-sm text-muted-foreground" aria-live="polite">
+      <p data-testid="transaction-empty" className="text-sm text-muted-foreground" aria-live="polite">
         {message}
       </p>
     );
@@ -68,7 +68,7 @@ const TransactionList = (): ReactNode => {
         className="flex-1 min-h-0 overflow-y-auto rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         tabIndex={0}
       >
-        <ul role="list" className="flex flex-col gap-3 p-0.5">
+        <ul data-testid="transaction-list" role="list" className="flex flex-col gap-3 p-0.5">
           {filteredTransactions.map((transaction) => (
             <TransactionItem
               description={transaction.description}

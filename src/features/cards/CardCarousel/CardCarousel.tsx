@@ -80,7 +80,7 @@ function CardCarousel() {
 
   return (
     <section>
-      <fieldset className="m-0 min-w-0 border-0 p-0">
+      <fieldset data-testid="card-carousel" className="m-0 min-w-0 border-0 p-0">
         <legend className="sr-only">Select a card</legend>
         <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent">
           {cards.map((card) => {
@@ -102,6 +102,7 @@ function CardCarousel() {
                 <input
                   type="radio"
                   id={`card-${card.id}`}
+                  data-testid={`card-radio-${card.id}`}
                   name="card-selection"
                   value={card.id}
                   checked={isSelected}
