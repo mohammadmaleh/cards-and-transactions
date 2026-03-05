@@ -34,5 +34,9 @@ storybook-static
 # Vite deps cache
 .vite/
 
+# Playwright output
+playwright-report/
+test-results/
+
 # WSL Windows artifacts
 *.Zone.Identifier
