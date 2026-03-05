@@ -23,7 +23,7 @@ function AppLayout({ children }: AppLayoutProps) {
       >
         Skip to main content
       </a>
-      <div className="flex min-h-screen">
+      <div className="flex md:h-dvh md:overflow-hidden">
         <aside
           className="fixed left-0 top-0 hidden h-screen w-52 flex-col border-r bg-white md:flex"
           aria-label="Sidebar"
@@ -57,7 +57,9 @@ function AppLayout({ children }: AppLayoutProps) {
             <Button
               variant="ghost"
               size="icon"
-              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={
+                menuOpen ? "Close navigation menu" : "Open navigation menu"
+              }
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
               onClick={() => setMenuOpen((prev) => !prev)}
@@ -80,7 +82,7 @@ function AppLayout({ children }: AppLayoutProps) {
         <main
           id="main-content"
           tabIndex={-1}
-          className="flex-1 bg-muted/30 pt-14 md:ml-52 md:pt-0"
+          className="flex flex-col flex-1 overflow-hidden bg-muted/30 pt-14 md:ml-52 md:pt-0 max-w-[100vw] md:max-w-[calc(100vw-13rem)]"
         >
           {children}
         </main>

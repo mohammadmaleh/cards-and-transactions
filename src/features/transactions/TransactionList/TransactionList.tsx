@@ -60,12 +60,12 @@ const TransactionList = (): ReactNode => {
   return (
     <>
       <p className="sr-only" aria-live="polite" aria-atomic="true">
-        {filteredTransactions.length}{" "}
-        {filteredTransactions.length === 1 ? "transaction" : "transactions"}{" "}
+        {filteredTransactions.length}
+        {filteredTransactions.length === 1 ? " transaction " : " transactions "}
         shown
       </p>
       <div
-        className="max-h-120 overflow-y-auto rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex-1 min-h-0 overflow-y-auto rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         tabIndex={0}
       >
         <ul role="list" className="flex flex-col gap-3 p-0.5">

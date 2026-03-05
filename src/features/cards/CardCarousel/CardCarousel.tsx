@@ -28,7 +28,7 @@ function CardCarousel() {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCardId = searchParams.get("card") ?? "";
   const { data: cards, isLoading, isError } = useGetCardsQuery();
-  const labelRefs = useRef<Record<string, HTMLLabelElement | null>>({});
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     if (!selectedCardId && cards && cards.length > 0) {
@@ -41,7 +41,7 @@ function CardCarousel() {
   }, [cards, selectedCardId, setSearchParams]);
 
   useEffect(() => {
-    const el = labelRefs.current[selectedCardId];
+    const el = itemRefs.current[selectedCardId];
     if (el) {
       el.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
     }
@@ -80,27 +80,28 @@ function CardCarousel() {
 
   return (
     <section>
-      <fieldset className="m-0 border-0 p-0">
+      <fieldset className="m-0 min-w-0 border-0 p-0">
         <legend className="sr-only">Select a card</legend>
-        <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1">
+        <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent">
           {cards.map((card) => {
             const isSelected = selectedCardId === card.id;
             const cardLabel = CARD_TYPE_LABEL[card.type] ?? card.type;
 
             return (
-              <label
+              <div
                 key={card.id}
                 ref={(el) => {
-                  labelRefs.current[card.id] = el;
+                  itemRefs.current[card.id] = el;
                 }}
                 className={cn(
-                  "block w-72 shrink-0 cursor-pointer rounded-2xl",
+                  "w-72 shrink-0 rounded-2xl",
                   "focus-within:outline-none focus-within:ring-2 focus-within:ring-sky-400 focus-within:ring-offset-2",
                   isSelected && "ring-2 ring-sky-500 ring-offset-2",
                 )}
               >
                 <input
                   type="radio"
+                  id={`card-${card.id}`}
                   name="card-selection"
                   value={card.id}
                   checked={isSelected}
@@ -108,8 +109,14 @@ function CardCarousel() {
                   aria-label={cardLabel}
                   className="sr-only"
                 />
-                <BankCard type={card.type} />
-              </label>
+                <label
+                  htmlFor={`card-${card.id}`}
+                  aria-hidden="true"
+                  className="block cursor-pointer rounded-2xl"
+                >
+                  <BankCard type={card.type} />
+                </label>
+              </div>
             );
           })}
         </div>
