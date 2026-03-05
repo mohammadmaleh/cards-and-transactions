@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { formatAmount } from "@/shared/utils"
+import { formatAmount, parseFormattedAmount } from "@/shared/utils"
 
 type TransactionItemProps = {
   description: string
@@ -8,16 +8,12 @@ type TransactionItemProps = {
 
 function TransactionItem({ description, amount }: TransactionItemProps) {
   const formatted = formatAmount(amount)
-  const isExpense = formatted.startsWith("-")
-  const isCredit = formatted.startsWith("+")
-
-  const type = isExpense ? "expense" : isCredit ? "credit" : "amount"
-  const absoluteFormatted = formatted.replace(/^[+\-−]/, "")
+  const { isExpense, isCredit, type, absolute } = parseFormattedAmount(formatted)
 
   return (
     <li
       className="flex items-center justify-between rounded-xl bg-muted px-5 py-4"
-      aria-label={`${description}, ${type}, ${absoluteFormatted}.`}
+      aria-label={`${description}, ${type}, ${absolute}.`}
     >
       <span aria-hidden="true" className="text-sm font-medium text-foreground">{description}</span>
       <span

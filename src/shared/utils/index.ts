@@ -1,1 +1,1 @@
-export { formatAmount } from "./formatAmount/formatAmount";
+export { formatAmount, parseFormattedAmount } from "./amount/amount";
