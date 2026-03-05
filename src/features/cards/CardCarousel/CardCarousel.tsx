@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useGetCardsQuery } from "@/store";
 import { BankCard, Skeleton } from "@/ui";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 const CARD_TYPE_LABEL: Record<string, string> = {
@@ -28,8 +28,6 @@ function CardCarousel() {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCardId = searchParams.get("card") ?? "";
   const { data: cards, isLoading, isError } = useGetCardsQuery();
-  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
   useEffect(() => {
     if (!selectedCardId && cards && cards.length > 0) {
       setSearchParams((prev) => {
@@ -39,13 +37,6 @@ function CardCarousel() {
       });
     }
   }, [cards, selectedCardId, setSearchParams]);
-
-  useEffect(() => {
-    const el = itemRefs.current[selectedCardId];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
-    }
-  }, [selectedCardId]);
 
   const handleCardSelect = (cardId: string) => {
     setSearchParams((prev) => {
@@ -90,9 +81,6 @@ function CardCarousel() {
             return (
               <div
                 key={card.id}
-                ref={(el) => {
-                  itemRefs.current[card.id] = el;
-                }}
                 className={cn(
                   "w-72 shrink-0 rounded-2xl",
                   "focus-within:outline-none focus-within:ring-2 focus-within:ring-sky-400 focus-within:ring-offset-2",

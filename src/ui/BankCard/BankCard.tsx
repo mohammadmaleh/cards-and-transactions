@@ -11,15 +11,13 @@ const CARD_CONFIG: Record<CardType, { label: string; gradient: string }> = {
 
 type BankCardProps = {
   type: CardType;
-  ref?: React.Ref<HTMLDivElement>;
 };
 
-function BankCard({ type, ref }: BankCardProps) {
+function BankCard({ type }: BankCardProps) {
   const { label, gradient } = CARD_CONFIG[type];
 
   return (
     <div
-      ref={ref}
       className={cn(
         "rounded-2xl bg-linear-to-br text-white",
         gradient,
