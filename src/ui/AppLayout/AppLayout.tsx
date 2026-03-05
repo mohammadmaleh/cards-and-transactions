@@ -2,7 +2,7 @@ import { Menu, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import { Button } from "../Button/Button";
-import { SidebarNav } from "./SidenarNav/SidebarNav";
+import { SidebarNav } from "./SidebarNav/SidebarNav";
 
 interface AppLayoutProps {
   children: ReactNode;
