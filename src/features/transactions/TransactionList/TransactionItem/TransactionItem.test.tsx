@@ -4,37 +4,45 @@ import { TransactionItem } from "./TransactionItem"
 
 describe("TransactionItem", () => {
   it("renders the description", () => {
-    render(<TransactionItem description="Food" amount={123.88} />)
+    render(<ul><TransactionItem description="Food" amount={123.88} /></ul>)
     expect(screen.getByText("Food")).toBeInTheDocument()
   })
 
   it("renders the formatted amount for an expense", () => {
-    render(<TransactionItem description="Food" amount={123.88} />)
+    render(<ul><TransactionItem description="Food" amount={123.88} /></ul>)
     expect(screen.getByText("-123,88 €")).toBeInTheDocument()
   })
 
   it("renders the formatted amount for a refund", () => {
-    render(<TransactionItem description="Refund" amount={-100} />)
+    render(<ul><TransactionItem description="Refund" amount={-100} /></ul>)
     expect(screen.getByText("+100,00 €")).toBeInTheDocument()
   })
 
-  it("labels an expense amount with Expense for screen readers", () => {
-    render(<TransactionItem description="Food" amount={123.88} />)
-    expect(screen.getByLabelText(/^Expense:/)).toBeInTheDocument()
+  it("announces expense type and amount via aria-label", () => {
+    render(<ul><TransactionItem description="Food" amount={123.88} /></ul>)
+    expect(
+      screen.getByRole("listitem", { name: /Food, expense/ }),
+    ).toBeInTheDocument()
   })
 
-  it("labels a refund amount with Refund for screen readers", () => {
-    render(<TransactionItem description="Refund" amount={-100} />)
-    expect(screen.getByLabelText(/^Refund:/)).toBeInTheDocument()
+  it("announces credit type and amount via aria-label", () => {
+    render(<ul><TransactionItem description="Refund" amount={-100} /></ul>)
+    expect(
+      screen.getByRole("listitem", { name: /Refund, credit/ }),
+    ).toBeInTheDocument()
   })
 
   it("has no accessibility violations for an expense", async () => {
-    const { container } = render(<TransactionItem description="Food" amount={123.88} />)
+    const { container } = render(
+      <ul><TransactionItem description="Food" amount={123.88} /></ul>,
+    )
     expect(await axe(container)).toHaveNoViolations()
   })
 
   it("has no accessibility violations for a refund", async () => {
-    const { container } = render(<TransactionItem description="Refund" amount={-100} />)
+    const { container } = render(
+      <ul><TransactionItem description="Refund" amount={-100} /></ul>,
+    )
     expect(await axe(container)).toHaveNoViolations()
   })
 })

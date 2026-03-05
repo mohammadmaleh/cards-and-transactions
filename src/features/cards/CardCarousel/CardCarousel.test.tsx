@@ -1,6 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
+import { getCards } from "@/services";
 import { renderWithProviders } from "@/test/renderWithProviders";
 import { CardCarousel } from "./CardCarousel";
 
@@ -55,6 +56,24 @@ describe("CardCarousel", () => {
       expect(
         screen.getByRole("radio", { name: "Private Card" }),
       ).not.toBeChecked();
+    });
+  });
+
+  it("shows an error message when cards fail to load", async () => {
+    vi.mocked(getCards).mockRejectedValueOnce(new Error("Network error"));
+    renderWithProviders(<CardCarousel />);
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Failed to load cards. Please try again.",
+      );
+    });
+  });
+
+  it("shows a message when no cards are available", async () => {
+    vi.mocked(getCards).mockResolvedValueOnce([]);
+    renderWithProviders(<CardCarousel />);
+    await waitFor(() => {
+      expect(screen.getByText("No cards available.")).toBeInTheDocument();
     });
   });
 

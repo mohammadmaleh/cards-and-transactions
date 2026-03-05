@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react"
 import { axe } from "jest-axe"
+import { getTransactions } from "@/services"
 import { renderWithProviders } from "@/test/renderWithProviders"
 import { TransactionList } from "./TransactionList"
 
@@ -58,6 +59,26 @@ describe("TransactionList", () => {
     await waitFor(() => {
       expect(
         screen.getByText("No transactions match your filter. Try a lower amount.")
+      ).toBeInTheDocument()
+    })
+  })
+
+  it("shows an error message when transactions fail to load", async () => {
+    vi.mocked(getTransactions).mockRejectedValueOnce(new Error("Network error"))
+    renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Failed to load transactions. Please try again.",
+      )
+    })
+  })
+
+  it("shows a message when the card has no transactions", async () => {
+    vi.mocked(getTransactions).mockResolvedValueOnce([])
+    renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+    await waitFor(() => {
+      expect(
+        screen.getByText("No transactions found for this card."),
       ).toBeInTheDocument()
     })
   })
