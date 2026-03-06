@@ -30,92 +30,115 @@ Install dependencies:
 
 ```bash
 npm install
+```
+
 Development server:
 
-bash
+```bash
 npm run dev
+```
+
 Run unit tests:
 
-bash
+```bash
 npm test
+```
+
 Run tests in watch mode:
 
-bash
+```bash
 npm run test:watch
+```
+
 Generate test coverage:
 
-bash
+```bash
 npm run test:coverage
+```
+
 Run E2E tests:
 
-bash
+```bash
 npm run test:e2e
+```
+
 Run E2E tests with UI:
 
-bash
+```bash
 npm run test:e2e:ui
+```
+
 View E2E test report:
 
-bash
+```bash
 npm run test:e2e:report
+```
+
 Launch Storybook:
 
-bash
+```bash
 npm run storybook
+```
+
 Build for production:
 
-bash
+```bash
 npm run build
+```
+
 Lint code:
 
-bash
+```bash
 npm run lint
+```
 
 ## Project Structure
 
-    src/
-    ├── ui/                  # Design system components
-    │   ├── BankCard/        # Card display component
-    │   ├── Button/          # Button with variant system (default, outline, ghost, icons)
-    │   ├── Input/           # Input resuable component
-    │   ├── Skeleton/        # Loading skeleton
-    │   └── AppLayout/       # Responsive layout
-    ├── features/
-    │   ├── cards/
-    │   │   └── CardCarousel/    # Fieldset-based card selection with radio pattern
-    │   └── transactions/
-    │       ├── AmountFilter/    # Reusable Amount filter
-    │       └── TransactionList/ # Represent tranascations list
-    ├── shared/
-    │   ├── hooks/
-    │   │   └── useUrlState/     # URL-synced state with bulk update support
-    │   └── utils/
-    │       └── amount/          # formatLocalizedAmount
-    ├── services/
-    │   ├── cards/           # Fetches cards
-    │   └── transactions/    # Fetches trasactions
-    ├── store/
-    │   ├── cards/           # cardsApi slice
-    │   └── transactions/    # transactionsApi slice
-    ├── pages/               # Main page
-    ├── types/               # Card, Transaction, CardType definitions
-    ├── data/                # JSON files lives here
-    ├── app/                 # Router config and Redux provider
-    ├── lib/                 # shadcn-managed cn() utility
-    └── test/                # Test setup
+```
+src/
+├── ui/                  # Design system components
+│   ├── BankCard/        # Card display component
+│   ├── Button/          # Button with variant system (default, outline, ghost, icons)
+│   ├── Input/           # Input reusable component
+│   ├── Skeleton/        # Loading skeleton
+│   └── AppLayout/       # Responsive layout
+├── features/
+│   ├── cards/
+│   │   └── CardCarousel/    # Fieldset-based card selection with radio pattern
+│   └── transactions/
+│       ├── AmountFilter/    # Reusable Amount filter
+│       └── TransactionList/ # Represent transactions list
+├── shared/
+│   ├── hooks/
+│   │   └── useUrlState/     # URL-synced state with bulk update support
+│   └── utils/
+│       └── amount/          # formatLocalizedAmount
+├── services/
+│   ├── cards/           # Fetches cards
+│   └── transactions/    # Fetches transactions
+├── store/
+│   ├── cards/           # cardsApi slice
+│   └── transactions/    # transactionsApi slice
+├── pages/               # Main page
+├── types/               # Card, Transaction, CardType definitions
+├── data/                # JSON files lives here
+├── app/                 # Router config and Redux provider
+├── lib/                 # shadcn-managed cn() utility
+└── test/                # Test setup
 
-    e2e/
-    ├── tests/               # E2E tests
-    ├── pages/               # Page Object Model
-    ├── fixtures/            # Test fixtures and utilities
-    └── data/                # Test data
+e2e/
+├── tests/               # E2E tests
+├── pages/               # Page Object Model
+├── fixtures/            # Test fixtures and utilities
+└── data/                # Test data
+```
 
 ## Architecture Principles
 
 **Clean Separation of Concerns**
 
 - Components never import JSON directly — all data flows through src/services/
-- Features are isolated and reuable
+- Features are isolated and reusable
 - UI components library is agnostic and contains zero business logic
 - Each feature exports its public API through index.ts barrel
 - Every component has co-located .test.tsx .stories.tsx
@@ -125,7 +148,7 @@ npm run lint
 - Card selection and filter amount persist in URL query parameters
 - Filter resets automatically when switching cards
 - Shareable URLs maintain full application state
-- useUrlState hook provides presistnet URL state and supports bulk URL params
+- useUrlState hook provides persistent URL state and supports bulk URL params
 
 **Domain-Separated RTK Query APIs**
 
@@ -146,12 +169,12 @@ npm run lint
 
 ### Amount Formatting & Display
 
-- formatLocalizedAmount() uses Intl.NumberFormat('de-DE', { currency: 'EUR', signDisplay: 'exceptZero' }), it can be dynamic in the future depending on the users settings
+- formatLocalizedAmount() uses Intl.NumberFormat('de-DE', { currency: 'EUR', signDisplay: 'exceptZero' }), it can be dynamic in the future depending on the user's settings
 - Sign inversion in display layer: expenses show negative, refunds positive
 
 ### Advanced Filter Modes
 
-- Supports absolute and +/- prefixes: "100" will show both negative and positve ammounts, "+100" filters credits only, "-100" filters expenses only
+- Supports absolute and +/- prefixes: "100" will show both negative and positive amounts, "+100" filters credits only, "-100" filters expenses only
 
 ### Accessibility (WCAG 2.1 AA+)
 
@@ -175,7 +198,7 @@ npm run lint
 
 **Features**
 
-- Server-side pagination, currently the transaction can be infinte and it can cause performance issues, a pagination logic should be implemented
+- Server-side pagination, currently the transaction can be infinite and it can cause performance issues, a pagination logic should be implemented
 - Multi-filter support: category, date range, merchant, transaction type
 - Sort options: date, amount, description (ascending/descending)
 - Transaction search with debounced input
@@ -184,21 +207,12 @@ npm run lint
 - Real API integration with JWT authentication and refresh flow
 - Internationalization (i18n) with react-i18next
 
-Repository: https://github.com/mohammadmaleh/cards-and-transactions
+---
 
-Note: I spent more than 4 hours building this project, to be able to show how I would structure a frontend application on enterprice level
-I worked around 16 hours on it.
+**Repository:** https://github.com/mohammadmaleh/cards-and-transactions
 
-sorry for the long review :)
+**Note:** I spent more than 4 hours building this project, to be able to show how I would structure a frontend application on enterprise level. I worked around 16 hours on it.
 
-Submitted by: Mohammad Al Maleh
+Sorry for the long review :)
 
-```
-
-```
-
-```
-
-```
-
-```
+**Submitted by:** Mohammad Al Maleh
