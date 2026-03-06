@@ -3,18 +3,17 @@ import { useSearchParams } from "react-router";
 export const useUrlState = (
   key: string,
   defaultValue: string = ""
-): [string, (value: string | null) => void] => {
+): [string, (updates: Record<string, string | null>) => void] => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const value = searchParams.get(key) ?? defaultValue;
 
-  const setValue = (newValue: string | null) => {
+  const setValue = (updates: Record<string, string | null>) => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-      if (newValue === null) {
-        next.delete(key);
-      } else {
-        next.set(key, newValue);
+      for (const [k, v] of Object.entries(updates)) {
+        if (v === null) next.delete(k);
+        else next.set(k, v);
       }
       return next;
     });

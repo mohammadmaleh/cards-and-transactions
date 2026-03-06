@@ -25,7 +25,7 @@ function AmountFilter() {
     }
 
     setErrorMessage(undefined)
-    setFilterParam(raw === "" ? null : raw)
+    setFilterParam({ filter: raw === "" ? null : raw })
   }
 
   return (

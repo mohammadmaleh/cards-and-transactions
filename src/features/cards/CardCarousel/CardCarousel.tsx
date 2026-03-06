@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
+import { useUrlState } from "@/shared/hooks";
 import { useGetCardsQuery } from "@/store";
 import { BankCard, Skeleton } from "@/ui";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router";
 
 const CARD_TYPE_LABEL: Record<string, string> = {
   private: "Private Card",
@@ -25,26 +25,17 @@ function CardCarouselSkeleton() {
 }
 
 function CardCarousel() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const selectedCardId = searchParams.get("card") ?? "";
+  const [selectedCardId, setCardParams] = useUrlState("card");
   const { data: cards, isLoading, isError } = useGetCardsQuery();
+
   useEffect(() => {
     if (!selectedCardId && cards && cards.length > 0) {
-      setSearchParams((prev) => {
-        const next = new URLSearchParams(prev);
-        next.set("card", cards[0].id);
-        return next;
-      });
+      setCardParams({ card: cards[0].id });
     }
-  }, [cards, selectedCardId, setSearchParams]);
+  }, [cards, selectedCardId, setCardParams]);
 
   const handleCardSelect = (cardId: string) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set("card", cardId);
-      next.delete("filter");
-      return next;
-    });
+    setCardParams({ card: cardId, filter: null });
   };
 
   if (isLoading) {

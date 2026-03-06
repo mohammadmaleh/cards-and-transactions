@@ -21,20 +21,20 @@ describe("useUrlState", () => {
   it("updates the value when setter is called", () => {
     const { result } = renderHook(() => useUrlState("card", ""), { wrapper });
     act(() => {
-      result.current[1]("card-uuid-123");
+      result.current[1]({ card: "card-uuid-123" });
     });
     expect(result.current[0]).toBe("card-uuid-123");
   });
 
-  it("removes the param when setter is called with null", () => {
+  it("removes the param when setter is called with null value", () => {
     const { result } = renderHook(() => useUrlState("card", "fallback"), {
       wrapper,
     });
     act(() => {
-      result.current[1]("card-uuid-123");
+      result.current[1]({ card: "card-uuid-123" });
     });
     act(() => {
-      result.current[1](null);
+      result.current[1]({ card: null });
     });
     expect(result.current[0]).toBe("fallback");
   });
@@ -49,8 +49,27 @@ describe("useUrlState", () => {
       { wrapper }
     );
     act(() => {
-      cardResult.current[1]("card-uuid-123");
+      cardResult.current[1]({ card: "card-uuid-123" });
     });
+    expect(filterResult.current[0]).toBe("");
+  });
+
+  it("updates multiple params atomically", () => {
+    const { result: cardResult } = renderHook(
+      () => useUrlState("card", ""),
+      { wrapper }
+    );
+    const { result: filterResult } = renderHook(
+      () => useUrlState("filter", ""),
+      { wrapper }
+    );
+    act(() => {
+      cardResult.current[1]({ filter: "50" });
+    });
+    act(() => {
+      cardResult.current[1]({ card: "card-uuid-456", filter: null });
+    });
+    expect(cardResult.current[0]).toBe("card-uuid-456");
     expect(filterResult.current[0]).toBe("");
   });
 });
