@@ -28,7 +28,7 @@ function AppLayout({ children }: AppLayoutProps): ReactNode {
           className="fixed left-0 top-0 hidden h-screen w-52 flex-col border-r bg-white md:flex"
           aria-label="Sidebar"
         >
-          <div className="flex items-center justify-center border-b px-4 py-6">
+          <div className="flex items-center justify-center border-b ">
             <Link to="/" aria-label="DKB Home">
               <img
                 src="/dkb-logo.webp"

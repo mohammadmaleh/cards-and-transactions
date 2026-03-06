@@ -1,8 +1,8 @@
-import { type ReactNode } from "react";
 import { CardCarousel } from "@/features/cards";
 import { AmountFilter, TransactionList } from "@/features/transactions";
 import { useUrlState } from "@/shared/hooks";
 import { AppLayout } from "@/ui";
+import { type ReactNode } from "react";
 
 function HomePage(): ReactNode {
   const [selectedCardId] = useUrlState("card");
@@ -22,9 +22,14 @@ function HomePage(): ReactNode {
         </section>
         <div className="flex min-h-0 flex-1 flex-col gap-4 px-4 max-w-2xl">
           <section aria-label="Transaction Filters">
-            <AmountFilter key={selectedCardId} />
+            <div className="max-w-50">
+              <AmountFilter key={selectedCardId} />
+            </div>
           </section>
-          <section aria-labelledby="transactions-heading" className="flex min-h-0 flex-1 flex-col">
+          <section
+            aria-labelledby="transactions-heading"
+            className="flex min-h-0 flex-1 flex-col"
+          >
             <h2
               id="transactions-heading"
               className="mb-3 text-sm font-semibold uppercase tracking-widest text-muted-foreground"
