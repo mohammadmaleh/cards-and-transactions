@@ -1,34 +1,22 @@
 import { useUrlState } from "@/shared/hooks";
 import { useGetTransactionsQuery } from "@/store";
-import { Pagination, Skeleton } from "@/ui";
-import { useMemo, useState, type ReactNode } from "react";
+import { Skeleton } from "@/ui";
+import { useMemo, type ReactNode } from "react";
 import { useDebounce } from "use-debounce";
 import { TransactionItem } from "./TransactionItem/TransactionItem";
 
-type FilterMode = "all" | "expenses" | "credits";
+type FilterMode = "all" | "expenses" | "credits"
 
-const ITEMS_PER_PAGE = 10;
-
-function parseFilterParam(param: string): {
-  mode: FilterMode;
-  threshold: number;
-} {
-  if (!param) return { mode: "all", threshold: 0 };
-  if (param.startsWith("+"))
-    return { mode: "credits", threshold: Number(param.slice(1)) };
-  if (param.startsWith("-"))
-    return { mode: "expenses", threshold: Number(param.slice(1)) };
-  return { mode: "all", threshold: Number(param) };
+function parseFilterParam(param: string): { mode: FilterMode; threshold: number } {
+  if (!param) return { mode: "all", threshold: 0 }
+  if (param.startsWith("+")) return { mode: "credits", threshold: Number(param.slice(1)) }
+  if (param.startsWith("-")) return { mode: "expenses", threshold: Number(param.slice(1)) }
+  return { mode: "all", threshold: Number(param) }
 }
 
 function TransactionListSkeleton(): ReactNode {
   return (
-    <div
-      data-testid="transaction-loading"
-      role="status"
-      aria-label="Loading transactions"
-      aria-busy="true"
-    >
+    <div data-testid="transaction-loading" role="status" aria-label="Loading transactions" aria-busy="true">
       <div className="flex flex-col gap-3">
         {Array.from({ length: 3 }, (_, i) => (
           <Skeleton key={i} className="h-14" />
@@ -42,7 +30,6 @@ const TransactionList = (): ReactNode => {
   const [selectedCardId] = useUrlState("card");
   const [filterParam] = useUrlState("filter");
   const [debouncedCardId] = useDebounce(selectedCardId, 300);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     data: transactions,
@@ -54,27 +41,17 @@ const TransactionList = (): ReactNode => {
     refetchOnReconnect: true,
   });
 
-  const { mode, threshold } = parseFilterParam(filterParam);
+  const { mode, threshold } = parseFilterParam(filterParam)
   const filteredTransactions = useMemo(
     () =>
       (transactions ?? []).filter((t) => {
-        if (Math.abs(t.amount) < threshold) return false;
-        if (mode === "expenses") return t.amount > 0;
-        if (mode === "credits") return t.amount < 0;
-        return true;
+        if (Math.abs(t.amount) < threshold) return false
+        if (mode === "expenses") return t.amount > 0
+        if (mode === "credits") return t.amount < 0
+        return true
       }),
     [transactions, mode, threshold],
   );
-
-  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
-
-  // Clamp current page to valid range (auto-resets when filters change)
-  const validPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages));
-
-  const paginatedTransactions = useMemo(() => {
-    const startIndex = (validPage - 1) * ITEMS_PER_PAGE;
-    return filteredTransactions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [filteredTransactions, validPage]);
 
   if (!debouncedCardId || isLoading) {
     return <TransactionListSkeleton />;
@@ -82,11 +59,7 @@ const TransactionList = (): ReactNode => {
 
   if (isError) {
     return (
-      <p
-        data-testid="transaction-error"
-        role="alert"
-        className="text-sm text-destructive"
-      >
+      <p data-testid="transaction-error" role="alert" className="text-sm text-destructive">
         Failed to load transactions. Please try again.
       </p>
     );
@@ -99,18 +72,14 @@ const TransactionList = (): ReactNode => {
         : "No transactions found for this card.";
 
     return (
-      <p
-        data-testid="transaction-empty"
-        className="text-sm text-muted-foreground"
-        aria-live="polite"
-      >
+      <p data-testid="transaction-empty" className="text-sm text-muted-foreground" aria-live="polite">
         {message}
       </p>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 flex-1 min-h-0">
+    <>
       <p className="sr-only" aria-live="polite" aria-atomic="true">
         {filteredTransactions.length}
         {filteredTransactions.length === 1 ? " transaction " : " transactions "}
@@ -120,12 +89,8 @@ const TransactionList = (): ReactNode => {
         className="flex-1 min-h-0 overflow-y-auto rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         tabIndex={0}
       >
-        <ul
-          data-testid="transaction-list"
-          role="list"
-          className="flex flex-col gap-3 p-0.5"
-        >
-          {paginatedTransactions.map((transaction) => (
+        <ul data-testid="transaction-list" role="list" className="flex flex-col gap-3 p-0.5">
+          {filteredTransactions.map((transaction) => (
             <TransactionItem
               description={transaction.description}
               key={transaction.id}
@@ -134,14 +99,7 @@ const TransactionList = (): ReactNode => {
           ))}
         </ul>
       </div>
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={validPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
-    </div>
+    </>
   );
 };
 
