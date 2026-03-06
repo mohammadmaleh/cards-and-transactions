@@ -4,6 +4,15 @@ import { Skeleton } from "@/ui";
 import { useMemo, type ReactNode } from "react";
 import { TransactionItem } from "./TransactionItem/TransactionItem";
 
+type FilterMode = "all" | "expenses" | "credits"
+
+function parseFilterParam(param: string): { mode: FilterMode; threshold: number } {
+  if (!param) return { mode: "all", threshold: 0 }
+  if (param.startsWith("+")) return { mode: "credits", threshold: Number(param.slice(1)) }
+  if (param.startsWith("-")) return { mode: "expenses", threshold: Number(param.slice(1)) }
+  return { mode: "all", threshold: Number(param) }
+}
+
 function TransactionListSkeleton() {
   return (
     <div data-testid="transaction-loading" role="status" aria-label="Loading transactions" aria-busy="true">
@@ -30,10 +39,16 @@ const TransactionList = (): ReactNode => {
     refetchOnReconnect: true,
   });
 
-  const filterValue = filterParam !== "" ? Number(filterParam) : 0;
+  const { mode, threshold } = parseFilterParam(filterParam)
   const filteredTransactions = useMemo(
-    () => (transactions ?? []).filter((t) => Math.abs(t.amount) >= filterValue),
-    [transactions, filterValue],
+    () =>
+      (transactions ?? []).filter((t) => {
+        if (Math.abs(t.amount) < threshold) return false
+        if (mode === "expenses") return t.amount > 0
+        if (mode === "credits") return t.amount < 0
+        return true
+      }),
+    [transactions, mode, threshold],
   );
 
   if (!selectedCardId || isLoading) {
@@ -50,7 +65,7 @@ const TransactionList = (): ReactNode => {
 
   if (filteredTransactions.length === 0) {
     const message =
-      filterValue > 0
+      filterParam !== ""
         ? "No transactions match your filter. Try a lower amount."
         : "No transactions found for this card.";
 

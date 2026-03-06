@@ -22,14 +22,14 @@ describe("TransactionList", () => {
     renderWithProviders(<TransactionList />, { initialUrl: "/" })
     expect(
       screen.getByRole("status", { name: "Loading transactions" })
-    ).toBeInTheDocument()
+    ).toBeVisible()
   })
 
   it("renders transactions for the selected card", async () => {
     renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
     await waitFor(() => {
-      expect(screen.getByText("Food")).toBeInTheDocument()
-      expect(screen.getByText("Snack")).toBeInTheDocument()
+      expect(screen.getByText("Food")).toBeVisible()
+      expect(screen.getByText("Snack")).toBeVisible()
     })
   })
 
@@ -38,7 +38,7 @@ describe("TransactionList", () => {
       initialUrl: "/?card=card-1&filter=100",
     })
     await waitFor(() => {
-      expect(screen.getByText("Food")).toBeInTheDocument()
+      expect(screen.getByText("Food")).toBeVisible()
       expect(screen.queryByText("Snack")).not.toBeInTheDocument()
     })
   })
@@ -48,7 +48,7 @@ describe("TransactionList", () => {
       initialUrl: "/?card=card-1&filter=100",
     })
     await waitFor(() => {
-      expect(screen.getByText("Refund for Smart Phone")).toBeInTheDocument()
+      expect(screen.getByText("Refund for Smart Phone")).toBeVisible()
     })
   })
 
@@ -59,7 +59,27 @@ describe("TransactionList", () => {
     await waitFor(() => {
       expect(
         screen.getByText("No transactions match your filter. Try a lower amount.")
-      ).toBeInTheDocument()
+      ).toBeVisible()
+    })
+  })
+
+  it("filters only expenses when filter starts with -", async () => {
+    renderWithProviders(<TransactionList />, {
+      initialUrl: "/?card=card-1&filter=-100",
+    })
+    await waitFor(() => {
+      expect(screen.getByText("Food")).toBeVisible()
+      expect(screen.queryByText("Refund for Smart Phone")).not.toBeInTheDocument()
+    })
+  })
+
+  it("filters only credits when filter starts with +", async () => {
+    renderWithProviders(<TransactionList />, {
+      initialUrl: "/?card=card-1&filter=%2B100",
+    })
+    await waitFor(() => {
+      expect(screen.getByText("Refund for Smart Phone")).toBeVisible()
+      expect(screen.queryByText("Food")).not.toBeInTheDocument()
     })
   })
 
@@ -79,7 +99,7 @@ describe("TransactionList", () => {
     await waitFor(() => {
       expect(
         screen.getByText("No transactions found for this card."),
-      ).toBeInTheDocument()
+      ).toBeVisible()
     })
   })
 
@@ -87,7 +107,7 @@ describe("TransactionList", () => {
     const { container } = renderWithProviders(<TransactionList />, {
       initialUrl: "/?card=card-1",
     })
-    await waitFor(() => expect(screen.getByText("Food")).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText("Food")).toBeVisible())
     expect(await axe(container)).toHaveNoViolations()
   })
 })

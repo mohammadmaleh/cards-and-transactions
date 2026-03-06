@@ -7,7 +7,7 @@ import { AmountFilter } from "./AmountFilter"
 describe("AmountFilter", () => {
   it("renders the label and input", () => {
     renderWithProviders(<AmountFilter />)
-    expect(screen.getByLabelText("Amount Filter")).toBeInTheDocument()
+    expect(screen.getByLabelText("Amount Filter")).toBeVisible()
   })
 
   it("pre-fills from the URL filter param", () => {
@@ -23,26 +23,30 @@ describe("AmountFilter", () => {
     })
   })
 
-  it("shows an error for a negative number", async () => {
+  it("accepts a negative prefix as an expense filter", async () => {
     renderWithProviders(<AmountFilter />)
-    await userEvent.type(screen.getByLabelText("Amount Filter"), "-5")
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Amount must be a positive number"
-    )
+    await userEvent.type(screen.getByLabelText("Amount Filter"), "-100")
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument()
+  })
+
+  it("accepts a positive prefix as a credit filter", async () => {
+    renderWithProviders(<AmountFilter />)
+    await userEvent.type(screen.getByLabelText("Amount Filter"), "+100")
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument()
   })
 
   it("shows an error for non-numeric input", async () => {
     renderWithProviders(<AmountFilter />)
     await userEvent.type(screen.getByLabelText("Amount Filter"), "abc")
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "Amount must be a positive number"
+      "Enter a valid amount (e.g. 100, -100, +100)"
     )
   })
 
   it("clears the error when input is cleared", async () => {
     renderWithProviders(<AmountFilter />)
-    await userEvent.type(screen.getByLabelText("Amount Filter"), "-5")
-    expect(screen.getByRole("alert")).toBeInTheDocument()
+    await userEvent.type(screen.getByLabelText("Amount Filter"), "abc")
+    expect(screen.getByRole("alert")).toBeVisible()
     await userEvent.clear(screen.getByLabelText("Amount Filter"))
     expect(screen.queryByRole("alert")).not.toBeInTheDocument()
   })
@@ -54,7 +58,7 @@ describe("AmountFilter", () => {
 
   it("has no accessibility violations in error state", async () => {
     const { container } = renderWithProviders(<AmountFilter />)
-    await userEvent.type(screen.getByLabelText("Amount Filter"), "-5")
+    await userEvent.type(screen.getByLabelText("Amount Filter"), "abc")
     expect(await axe(container)).toHaveNoViolations()
   })
 })

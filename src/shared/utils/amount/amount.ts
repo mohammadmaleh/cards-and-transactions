@@ -17,8 +17,9 @@ type AmountDisplayProps = {
 }
 
 export const getAmountDisplayProps = (formatted: string): AmountDisplayProps => {
-  const isExpense = formatted.startsWith("-")
-  const isCredit = formatted.startsWith("+")
+  const sign = formatted.match(/^[+\-−]/)?.[0] ?? ""
+  const isExpense = sign === "-" || sign === "\u2212"
+  const isCredit = sign === "+"
   return {
     isExpense,
     isCredit,

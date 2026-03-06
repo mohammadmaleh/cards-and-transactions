@@ -27,10 +27,10 @@ describe("CardCarousel", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("radio", { name: "Private Card" }),
-      ).toBeInTheDocument();
+      ).toBeVisible();
       expect(
         screen.getByRole("radio", { name: "Business Card" }),
-      ).toBeInTheDocument();
+      ).toBeVisible();
     });
   });
 
@@ -46,7 +46,7 @@ describe("CardCarousel", () => {
     await waitFor(() =>
       expect(
         screen.getByRole("radio", { name: "Business Card" }),
-      ).toBeInTheDocument(),
+      ).toBeVisible(),
     );
     await userEvent.click(screen.getByRole("radio", { name: "Business Card" }));
     await waitFor(() => {
@@ -73,7 +73,7 @@ describe("CardCarousel", () => {
     vi.mocked(getCards).mockResolvedValueOnce([]);
     renderWithProviders(<CardCarousel />);
     await waitFor(() => {
-      expect(screen.getByText("No cards available.")).toBeInTheDocument();
+      expect(screen.getByText("No cards available.")).toBeVisible();
     });
   });
 
@@ -82,7 +82,7 @@ describe("CardCarousel", () => {
     await waitFor(() =>
       expect(
         screen.getByRole("radio", { name: "Private Card" }),
-      ).toBeInTheDocument(),
+      ).toBeVisible(),
     );
     expect(await axe(container)).toHaveNoViolations();
   });

@@ -4,8 +4,8 @@ import { Input } from "@/ui"
 import { useUrlState } from "@/shared/hooks"
 
 const filterAmountSchema = z.string().refine(
-  (val) => val === "" || (Number.isFinite(Number(val)) && Number(val) >= 0),
-  { message: "Amount must be a positive number" }
+  (val) => val === "" || /^[+-]?\d+(\.\d+)?$/.test(val),
+  { message: "Enter a valid amount (e.g. 100, -100, +100)" }
 )
 
 function AmountFilter() {
@@ -32,9 +32,9 @@ function AmountFilter() {
     <Input
       id="amount-filter"
       label="Amount Filter"
-      placeholder="e.g. 50"
+      placeholder="e.g. 100, -100, +100"
       type="text"
-      inputMode="decimal"
+      inputMode="text"
       value={inputValue}
       onChange={handleChange}
       errorMessage={errorMessage}
