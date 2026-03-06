@@ -137,7 +137,7 @@ e2e/
 
 **Clean Separation of Concerns**
 
-- Components never import JSON directly — all data flows through src/services/
+- Components never import JSON directly, all data flows through src/services/
 - Features are isolated and reusable
 - UI components library is agnostic and contains zero business logic
 - Each feature exports its public API through index.ts barrel
