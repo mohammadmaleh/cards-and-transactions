@@ -1,7 +1,6 @@
 # Cards & Transactions
 
-DKB Code Factory frontend coding challenge — Senior frontend developer submission.
-
+DKB Code Factory frontend coding challenge
 
 ## Tech Stack
 
