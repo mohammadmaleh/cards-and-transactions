@@ -3,6 +3,7 @@ import { expect, test } from "../fixtures";
 
 test.describe("Transaction Pagination", () => {
   test.beforeEach(async ({ homePage }) => {
+    // Use PRIVATE_1 card which has 25 transactions
     await homePage.goto({ card: CARDS.PRIVATE_1.id });
     await homePage.waitForCardsLoaded();
     await homePage.waitForTransactionsLoaded();
@@ -24,6 +25,7 @@ test.describe("Transaction Pagination", () => {
     const count = await homePage.getTransactionCount();
     expect(count).toBeLessThanOrEqual(10);
 
+    // Navigation should not exist
     const nav = page.getByRole("navigation");
     await expect(nav).toBeHidden();
   });
@@ -34,6 +36,7 @@ test.describe("Transaction Pagination", () => {
   });
 
   test("displays correct page number buttons", async ({ page }) => {
+    // 25 transactions = 3 pages
     await expect(page.getByRole("button", { name: "1" })).toBeVisible();
     await expect(page.getByRole("button", { name: "2" })).toBeVisible();
     await expect(page.getByRole("button", { name: "3" })).toBeVisible();
@@ -48,6 +51,7 @@ test.describe("Transaction Pagination", () => {
     const nextButton = page.getByLabel(/next page/i);
     await nextButton.click();
 
+    // Wait for transaction list to update by checking first item changed
     await expect(homePage.transactionItems().first()).not.toContainText(
       firstItem || "",
     );
@@ -57,6 +61,7 @@ test.describe("Transaction Pagination", () => {
     page,
     homePage,
   }) => {
+    // Go to page 2
     const nextButton = page.getByLabel(/next page/i);
     await nextButton.click();
 
@@ -65,6 +70,7 @@ test.describe("Transaction Pagination", () => {
       .first()
       .textContent();
 
+    // Go back to page 1
     const prevButton = page.getByLabel(/previous page/i);
     await prevButton.click();
 
@@ -80,9 +86,11 @@ test.describe("Transaction Pagination", () => {
     const page3Button = page.getByRole("button", { name: "3" });
     await page3Button.click();
 
+    // Wait for page to change
     await expect(page3Button).toHaveAttribute("aria-current", "page");
 
     const count = await homePage.getTransactionCount();
+    // Page 3 should have 5 transactions (25 total - 20 from first 2 pages)
     expect(count).toBe(5);
   });
 
@@ -92,6 +100,7 @@ test.describe("Transaction Pagination", () => {
   });
 
   test("disables next button on last page", async ({ page }) => {
+    // Go to last page (page 3)
     const page3Button = page.getByRole("button", { name: "3" });
     await page3Button.click();
 
@@ -105,6 +114,7 @@ test.describe("Transaction Pagination", () => {
     const page1Button = page.getByRole("button", { name: "1" });
     await expect(page1Button).toHaveAttribute("aria-current", "page");
 
+    // Navigate to page 2
     const page2Button = page.getByRole("button", { name: "2" });
     await page2Button.click();
 
@@ -115,25 +125,31 @@ test.describe("Transaction Pagination", () => {
     page,
     homePage,
   }) => {
+    // Go to page 2
     const page2Button = page.getByRole("button", { name: "2" });
     await page2Button.click();
     await expect(page2Button).toHaveAttribute("aria-current", "page");
 
+    // Apply filter that will have fewer results
     await homePage.setFilter("200");
     await homePage.waitForTransactionsLoaded();
 
+    // Should be back on page 1
     const page1Button = page.getByRole("button", { name: "1" });
     await expect(page1Button).toHaveAttribute("aria-current", "page");
   });
 
   test("resets to page 1 when switching cards", async ({ page, homePage }) => {
+    // Go to page 2
     const page2Button = page.getByRole("button", { name: "2" });
     await page2Button.click();
     await expect(page2Button).toHaveAttribute("aria-current", "page");
 
+    // Switch to same card (will reload)
     await homePage.selectCard(CARDS.BUSINESS_1.id);
     await homePage.waitForTransactionsLoaded();
 
+    // Pagination should be gone for this card (only 8 transactions)
     await expect(page.getByRole("navigation")).toBeHidden();
   });
 });
