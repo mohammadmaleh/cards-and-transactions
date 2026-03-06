@@ -12,7 +12,7 @@ export class HomePage {
     this.cardCarousel = page.getByTestId("card-carousel");
     this.amountFilterInput = page.getByLabel("Amount Filter");
     this.filterErrorMessage = page.getByRole("alert").filter({
-      hasText: "Amount must be a positive number",
+      hasText: "Enter a valid amount",
     });
   }
 

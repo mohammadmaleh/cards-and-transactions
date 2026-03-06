@@ -82,14 +82,36 @@ test.describe("Transaction Filter", () => {
     expect(count).toBe(TRANSACTIONS[CARDS.BUSINESS_1.id].count);
   });
 
-  test("shows a validation error for a negative number", async ({
-    homePage,
-  }) => {
-    await homePage.setFilter("-10");
-    await expect(homePage.filterErrorMessage).toBeVisible();
-    await expect(homePage.filterErrorMessage).toHaveText(
-      "Amount must be a positive number",
-    );
+  test("negative prefix filters only expenses", async ({ homePage }) => {
+    await homePage.setFilter("-219");
+    await homePage.waitForTransactionsLoaded();
+
+    await expect(
+      homePage.transactionItem(
+        TRANSACTIONS[CARDS.BUSINESS_1.id].samples.expense.description,
+      ),
+    ).toBeVisible();
+    await expect(
+      homePage.transactionItem(
+        TRANSACTIONS[CARDS.BUSINESS_1.id].samples.credit.description,
+      ),
+    ).not.toBeVisible();
+  });
+
+  test("positive prefix filters only credits", async ({ homePage }) => {
+    await homePage.setFilter("+219");
+    await homePage.waitForTransactionsLoaded();
+
+    await expect(
+      homePage.transactionItem(
+        TRANSACTIONS[CARDS.BUSINESS_1.id].samples.credit.description,
+      ),
+    ).toBeVisible();
+    await expect(
+      homePage.transactionItem(
+        TRANSACTIONS[CARDS.BUSINESS_1.id].samples.expense.description,
+      ),
+    ).not.toBeVisible();
   });
 
   test("shows a validation error for non-numeric input", async ({
@@ -97,6 +119,9 @@ test.describe("Transaction Filter", () => {
   }) => {
     await homePage.setFilter("abc");
     await expect(homePage.filterErrorMessage).toBeVisible();
+    await expect(homePage.filterErrorMessage).toContainText(
+      "Enter a valid amount",
+    );
   });
 
   test("invalid input does not update the URL filter param", async ({
