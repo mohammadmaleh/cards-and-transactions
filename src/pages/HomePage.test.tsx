@@ -20,19 +20,19 @@ describe("HomePage", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("radio", { name: "Private Card" }),
-      ).toBeInTheDocument();
+      ).toBeVisible();
     });
   });
 
   it("renders the amount filter", () => {
     renderWithProviders(<HomePage />);
-    expect(screen.getByLabelText("Amount Filter")).toBeInTheDocument();
+    expect(screen.getByLabelText("Amount Filter")).toBeVisible();
   });
 
   it("renders transactions after a card is selected", async () => {
     renderWithProviders(<HomePage />);
     await waitFor(() => {
-      expect(screen.getByText("Food")).toBeInTheDocument();
+      expect(screen.getByText("Food")).toBeVisible();
     });
   });
 
@@ -40,13 +40,13 @@ describe("HomePage", () => {
     renderWithProviders(<HomePage />);
     await waitFor(() => {
       expect(screen.getByRole("radio", { name: "Private Card" })).toBeChecked();
-      expect(screen.getByText("Food")).toBeInTheDocument();
+      expect(screen.getByText("Food")).toBeVisible();
     });
   });
 
   it("has no accessibility violations", async () => {
     const { container } = renderWithProviders(<HomePage />);
-    await waitFor(() => expect(screen.getByText("Food")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("Food")).toBeVisible());
     expect(await axe(container)).toHaveNoViolations();
   });
 });

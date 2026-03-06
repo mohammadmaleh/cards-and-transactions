@@ -24,7 +24,7 @@ describe("HomePage — integration", () => {
   it("loads card-1 transactions on initial render", async () => {
     renderWithProviders(<HomePage />);
     await waitFor(() => {
-      expect(screen.getByText("Rewe")).toBeInTheDocument();
+      expect(screen.getByText("Rewe")).toBeVisible();
     });
     expect(screen.queryByText("Flight to NYC")).not.toBeInTheDocument();
   });
@@ -32,13 +32,13 @@ describe("HomePage — integration", () => {
   it("loads card-2 transactions after switching to the business card", async () => {
     renderWithProviders(<HomePage />);
     await waitFor(() =>
-      expect(screen.getByRole("radio", { name: "Business Card" })).toBeInTheDocument(),
+      expect(screen.getByRole("radio", { name: "Business Card" })).toBeVisible(),
     );
 
     await userEvent.click(screen.getByRole("radio", { name: "Business Card" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Flight to NYC")).toBeInTheDocument();
+      expect(screen.getByText("Flight to NYC")).toBeVisible();
     });
     expect(screen.queryByText("Rewe")).not.toBeInTheDocument();
   });
@@ -46,14 +46,14 @@ describe("HomePage — integration", () => {
   it("resets the filter input when switching cards", async () => {
     renderWithProviders(<HomePage />, { initialUrl: "/?card=card-1&filter=50" });
     await waitFor(() =>
-      expect(screen.getByRole("radio", { name: "Business Card" })).toBeInTheDocument(),
+      expect(screen.getByRole("radio", { name: "Business Card" })).toBeVisible(),
     );
     expect(screen.getByLabelText("Amount Filter")).toHaveValue("50");
 
     await userEvent.click(screen.getByRole("radio", { name: "Business Card" }));
 
     await waitFor(() =>
-      expect(screen.getByText("Flight to NYC")).toBeInTheDocument(),
+      expect(screen.getByText("Flight to NYC")).toBeVisible(),
     );
     expect(screen.getByLabelText("Amount Filter")).toHaveValue("");
   });
@@ -63,13 +63,13 @@ describe("HomePage — integration", () => {
     await waitFor(() =>
       expect(
         screen.getByText("No transactions match your filter. Try a lower amount."),
-      ).toBeInTheDocument(),
+      ).toBeVisible(),
     );
 
     await userEvent.click(screen.getByRole("radio", { name: "Business Card" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Flight to NYC")).toBeInTheDocument();
+      expect(screen.getByText("Flight to NYC")).toBeVisible();
     });
     expect(
       screen.queryByText("No transactions match your filter. Try a lower amount."),

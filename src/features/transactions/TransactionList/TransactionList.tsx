@@ -2,6 +2,7 @@ import { useUrlState } from "@/shared/hooks";
 import { useGetTransactionsQuery } from "@/store";
 import { Skeleton } from "@/ui";
 import { useMemo, type ReactNode } from "react";
+import { useDebounce } from "use-debounce";
 import { TransactionItem } from "./TransactionItem/TransactionItem";
 
 type FilterMode = "all" | "expenses" | "credits"
@@ -28,13 +29,14 @@ function TransactionListSkeleton(): ReactNode {
 const TransactionList = (): ReactNode => {
   const [selectedCardId] = useUrlState("card");
   const [filterParam] = useUrlState("filter");
+  const [debouncedCardId] = useDebounce(selectedCardId, 300);
 
   const {
     data: transactions,
     isLoading,
     isError,
-  } = useGetTransactionsQuery(selectedCardId, {
-    skip: !selectedCardId,
+  } = useGetTransactionsQuery(debouncedCardId, {
+    skip: !debouncedCardId,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
@@ -51,7 +53,7 @@ const TransactionList = (): ReactNode => {
     [transactions, mode, threshold],
   );
 
-  if (!selectedCardId || isLoading) {
+  if (!debouncedCardId || isLoading) {
     return <TransactionListSkeleton />;
   }
 

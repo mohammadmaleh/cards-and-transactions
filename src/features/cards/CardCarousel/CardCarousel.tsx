@@ -26,7 +26,11 @@ function CardCarouselSkeleton(): ReactNode {
 
 function CardCarousel(): ReactNode {
   const [selectedCardId, setCardParams] = useUrlState("card");
-  const { data: cards, isLoading, isError } = useGetCardsQuery(undefined, {
+  const {
+    data: cards,
+    isLoading,
+    isError,
+  } = useGetCardsQuery(undefined, {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
@@ -58,16 +62,21 @@ function CardCarousel(): ReactNode {
   if (!cards || cards.length === 0) {
     return (
       <section aria-label="Your cards">
-        <p className="px-4 text-sm text-muted-foreground">No cards available.</p>
+        <p className="px-4 text-sm text-muted-foreground">
+          No cards available.
+        </p>
       </section>
     );
   }
 
   return (
     <section>
-      <fieldset data-testid="card-carousel" className="m-0 min-w-0 border-0 p-0">
+      <fieldset
+        data-testid="card-carousel"
+        className="m-0 min-w-0 border-0 p-0"
+      >
         <legend className="sr-only">Select a card</legend>
-        <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent">
+        <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1">
           {cards.map((card) => {
             const isSelected = selectedCardId === card.id;
             const cardLabel = CARD_TYPE_LABEL[card.type] ?? card.type;
