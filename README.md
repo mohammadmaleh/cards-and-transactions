@@ -30,46 +30,67 @@ Install dependencies:
 
 ```bash
 npm install
+```
+
 Development server:
 
-bash
+```bash
 npm run dev
+```
+
 Run unit tests:
 
-bash
+```bash
 npm test
+```
+
 Run tests in watch mode:
 
-bash
+```bash
 npm run test:watch
+```
+
 Generate test coverage:
 
-bash
+````bash
 npm run test:coverage
+```
+
 Run E2E tests:
 
-bash
+```bash
 npm run test:e2e
+```
+
 Run E2E tests with UI:
 
-bash
+```bash
 npm run test:e2e:ui
+```
+
 View E2E test report:
 
-bash
+```bash
 npm run test:e2e:report
+```
+
 Launch Storybook:
 
-bash
+```bash
 npm run storybook
+```
+
 Build for production:
 
-bash
+```bash
 npm run build
+```
+
 Lint code:
 
-bash
+```bash
 npm run lint
+```
 
 ## Project Structure
 
@@ -192,4 +213,13 @@ I worked around 16 hours on it.
 sorry for the long review :)
 
 Submitted by: Mohammad Al Maleh
+
+````
+
+```
+
+```
+
+```
+
 ```
