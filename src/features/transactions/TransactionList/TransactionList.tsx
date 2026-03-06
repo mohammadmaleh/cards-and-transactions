@@ -24,7 +24,11 @@ const TransactionList = (): ReactNode => {
     data: transactions,
     isLoading,
     isError,
-  } = useGetTransactionsQuery(selectedCardId, { skip: !selectedCardId });
+  } = useGetTransactionsQuery(selectedCardId, {
+    skip: !selectedCardId,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
   const filterValue = filterParam !== "" ? Number(filterParam) : 0;
   const filteredTransactions = useMemo(

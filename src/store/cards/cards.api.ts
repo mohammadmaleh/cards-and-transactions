@@ -5,6 +5,7 @@ import { getCards } from "@/services"
 export const cardsApi = createApi({
   reducerPath: "cardsApi",
   baseQuery: fakeBaseQuery(),
+  keepUnusedDataFor: 300,
   endpoints: (builder) => ({
     getCards: builder.query<Card[], void>({
       queryFn: async () => {

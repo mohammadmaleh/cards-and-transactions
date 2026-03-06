@@ -5,6 +5,7 @@ import { getTransactions } from "@/services"
 export const transactionsApi = createApi({
   reducerPath: "transactionsApi",
   baseQuery: fakeBaseQuery(),
+  keepUnusedDataFor: 60,
   endpoints: (builder) => ({
     getTransactions: builder.query<Transaction[], string>({
       queryFn: async (cardId) => {

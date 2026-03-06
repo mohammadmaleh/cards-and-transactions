@@ -26,7 +26,10 @@ function CardCarouselSkeleton() {
 
 function CardCarousel() {
   const [selectedCardId, setCardParams] = useUrlState("card");
-  const { data: cards, isLoading, isError } = useGetCardsQuery();
+  const { data: cards, isLoading, isError } = useGetCardsQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
   useEffect(() => {
     if (!selectedCardId && cards && cards.length > 0) {
