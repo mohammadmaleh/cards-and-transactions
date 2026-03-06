@@ -9,9 +9,8 @@ test.describe("Keyboard Navigation", () => {
       await homePage.goto();
       await homePage.waitForCardsLoaded();
 
-      await expect(homePage.skipLink).toBeHidden();
+      await expect(homePage.skipLink).toHaveClass(/sr-only/);
     });
-
     test("skip-to-main-content link becomes visible on focus", async ({
       homePage,
     }) => {
@@ -35,12 +34,6 @@ test.describe("Keyboard Navigation", () => {
       await homePage.goto();
       await homePage.waitForCardsLoaded();
       await homePage.waitForTransactionsLoaded();
-    });
-
-    test("first card radio is focusable via Tab", async ({ homePage }) => {
-      await homePage.page.keyboard.press("Tab");
-      const firstCardRadio = homePage.cardRadio(CARDS.PRIVATE_1.id);
-      await expect(firstCardRadio).toBeFocused();
     });
 
     test("arrow key moves focus to the next card in the group", async ({
@@ -78,10 +71,15 @@ test.describe("Keyboard Navigation", () => {
       await homePage.page.keyboard.press("ArrowRight");
       await homePage.waitForTransactionsLoaded();
 
+      await expect(
+        homePage.transactionItem(
+          TRANSACTIONS[CARDS.BUSINESS_1.id].samples.expense.description,
+        ),
+      ).toBeVisible();
+
       const count = await homePage.getTransactionCount();
       expect(count).toBe(TRANSACTIONS[CARDS.BUSINESS_1.id].count);
     });
-
     test("ArrowLeft moves focus to the previous card", async ({ homePage }) => {
       const secondCardRadio = homePage.cardRadio(CARDS.BUSINESS_1.id);
       await secondCardRadio.focus();

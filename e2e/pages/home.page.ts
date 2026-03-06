@@ -67,7 +67,8 @@ export class HomePage {
   }
 
   async selectCard(cardId: string): Promise<void> {
-    await this.cardRadio(cardId).check();
+    await this.page.locator(`label[for="card-${cardId}"]`).click();
+    await this.urlContainsCard(cardId);
   }
 
   async setFilter(value: string): Promise<void> {

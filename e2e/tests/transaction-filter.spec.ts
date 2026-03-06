@@ -153,7 +153,15 @@ test.describe("Transaction Filter", () => {
     await expect(homePage.transactionEmpty).toBeVisible();
 
     await homePage.selectCard(CARDS.PRIVATE_2.id);
+
+    await homePage.urlContainsCard(CARDS.PRIVATE_2.id);
+    await homePage.urlHasNoFilter();
+
     await homePage.waitForTransactionsLoaded();
+
+    await expect(
+      homePage.transactionItem("iPhone Case"),
+    ).toBeVisible();
 
     const count = await homePage.getTransactionCount();
     expect(count).toBe(TRANSACTIONS[CARDS.PRIVATE_2.id].count);

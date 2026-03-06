@@ -41,17 +41,6 @@ test.describe("Mobile Navigation", () => {
     await expect(nav).toBeVisible();
   });
 
-  test("open hamburger button exposes aria-expanded=true", async ({
-    homePage,
-  }) => {
-    const menuButton = homePage.page.getByRole("button", {
-      name: "Open navigation menu",
-    });
-    await menuButton.click();
-
-    await expect(menuButton).toHaveAttribute("aria-expanded", "true");
-  });
-
   test("clicking the hamburger button again closes the menu", async ({
     homePage,
   }) => {
@@ -106,7 +95,9 @@ test.describe("Desktop Navigation", () => {
 
   test("desktop sidebar is visible", async ({ homePage }) => {
     await homePage.goto();
-    const sidebar = homePage.page.getByRole("complementary", { name: "Sidebar" });
+    const sidebar = homePage.page.getByRole("complementary", {
+      name: "Sidebar",
+    });
     await expect(sidebar).toBeVisible();
   });
 

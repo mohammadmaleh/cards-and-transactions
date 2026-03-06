@@ -48,6 +48,12 @@ test.describe("Card Selection", () => {
     await loadedHomePage.selectCard(CARDS.BUSINESS_1.id);
     await loadedHomePage.waitForTransactionsLoaded();
 
+    await expect(
+      loadedHomePage.transactionItem(
+        TRANSACTIONS[CARDS.BUSINESS_1.id].samples.expense.description,
+      ),
+    ).toBeVisible();
+
     const count = await loadedHomePage.getTransactionCount();
     expect(count).toBe(TRANSACTIONS[CARDS.BUSINESS_1.id].count);
   });
