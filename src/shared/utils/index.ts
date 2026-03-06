@@ -1,1 +1,1 @@
-export { formatAmount, parseFormattedAmount } from "./amount/amount";
+export { formatLocalizedAmount, getAmountDisplayProps } from "./amount/amount";

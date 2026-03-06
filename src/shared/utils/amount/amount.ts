@@ -1,20 +1,22 @@
-const formatter = new Intl.NumberFormat("de-DE", {
-  style: "currency",
-  currency: "EUR",
-  signDisplay: "exceptZero",
-});
+export const formatLocalizedAmount = (
+  rawAmount: number,
+  locale = "de-DE",
+  currency = "EUR",
+): string =>
+  new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    signDisplay: "exceptZero",
+  }).format(-rawAmount);
 
-export const formatAmount = (rawAmount: number): string =>
-  formatter.format(-rawAmount);
-
-type ParsedAmount = {
+type AmountDisplayProps = {
   isExpense: boolean
   isCredit: boolean
   type: "expense" | "credit" | "amount"
   absolute: string
 }
 
-export const parseFormattedAmount = (formatted: string): ParsedAmount => {
+export const getAmountDisplayProps = (formatted: string): AmountDisplayProps => {
   const isExpense = formatted.startsWith("-")
   const isCredit = formatted.startsWith("+")
   return {

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { formatAmount, parseFormattedAmount } from "@/shared/utils"
+import { formatLocalizedAmount, getAmountDisplayProps } from "@/shared/utils"
 
 type TransactionItemProps = {
   description: string
@@ -7,8 +7,8 @@ type TransactionItemProps = {
 }
 
 function TransactionItem({ description, amount }: TransactionItemProps) {
-  const formatted = formatAmount(amount)
-  const { isExpense, isCredit, type, absolute } = parseFormattedAmount(formatted)
+  const formatted = formatLocalizedAmount(amount, "de-DE", "EUR")
+  const { isExpense, isCredit, type, absolute } = getAmountDisplayProps(formatted)
 
   return (
     <li
