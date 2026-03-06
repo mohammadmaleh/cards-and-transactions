@@ -5,12 +5,12 @@ import { BankCard } from "./BankCard"
 describe("BankCard", () => {
   it("renders the card label for private type", () => {
     render(<BankCard type="private" />)
-    expect(screen.getByText("Private Card")).toBeInTheDocument()
+    expect(screen.getByText("Private Card")).toBeVisible()
   })
 
   it("renders the card label for business type", () => {
     render(<BankCard type="business" />)
-    expect(screen.getByText("Business Card")).toBeInTheDocument()
+    expect(screen.getByText("Business Card")).toBeVisible()
   })
 
   it("has no accessibility violations", async () => {

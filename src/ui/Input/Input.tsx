@@ -2,13 +2,14 @@ import { type InputHTMLAttributes } from "react"
 import { cn } from "@/lib/utils"
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  id: string
   label: string
   errorMessage?: string
   ref?: React.Ref<HTMLInputElement>
 }
 
 function Input({ label, errorMessage, className, id, ref, ...props }: InputProps) {
-  const errorId = id ? `${id}-error` : undefined
+  const errorId = `${id}-error`
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -34,7 +35,7 @@ function Input({ label, errorMessage, className, id, ref, ...props }: InputProps
         {...props}
       />
       {errorMessage && (
-        <p id={errorId} className="text-sm text-destructive" role="alert">
+        <p id={errorId} role="alert" className="text-sm text-destructive">
           {errorMessage}
         </p>
       )}

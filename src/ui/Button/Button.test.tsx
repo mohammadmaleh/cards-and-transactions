@@ -9,7 +9,7 @@ describe("Button", () => {
     render(<Button>Click me</Button>);
     expect(
       screen.getByRole("button", { name: "Click me" }),
-    ).toBeInTheDocument();
+    ).toBeVisible();
   });
 
   it("calls onClick when clicked", async () => {

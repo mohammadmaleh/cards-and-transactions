@@ -48,7 +48,8 @@ function AppLayout({ children }: AppLayoutProps) {
             <Link to="/" aria-label="DKB Home">
               <img
                 src="/dkb-logo.webp"
-                alt="DKB — Das kann Bank"
+                alt=""
+                aria-hidden="true"
                 width={48}
                 height={16}
                 className="w-12"
@@ -72,11 +73,13 @@ function AppLayout({ children }: AppLayoutProps) {
             </Button>
           </header>
 
-          {menuOpen && (
-            <div id="mobile-navigation" className="border-b bg-white shadow-md">
-              <SidebarNav onNavigate={handleNavigate} />
-            </div>
-          )}
+          <div
+            id="mobile-navigation"
+            hidden={!menuOpen}
+            className="border-b bg-white shadow-md"
+          >
+            <SidebarNav onNavigate={handleNavigate} />
+          </div>
         </div>
 
         <main

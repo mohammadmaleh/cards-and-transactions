@@ -6,7 +6,7 @@ import { Input } from "./Input"
 describe("Input", () => {
   it("renders with a visible label", () => {
     render(<Input id="amount" label="Amount Filter" />)
-    expect(screen.getByLabelText("Amount Filter")).toBeInTheDocument()
+    expect(screen.getByLabelText("Amount Filter")).toBeVisible()
   })
 
   it("associates label with input via htmlFor and id", () => {
