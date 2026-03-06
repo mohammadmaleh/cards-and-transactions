@@ -98,4 +98,17 @@ export class HomePage {
   async urlHasNoFilter(): Promise<void> {
     await expect(this.page).not.toHaveURL(/filter=/);
   }
+  
+  async getTransactionDescriptions(): Promise<string[]> {
+    const items = this.transactionItems();
+    const count = await items.count();
+    const descriptions: string[] = [];
+
+    for (let i = 0; i < count; i++) {
+      const text = await items.nth(i).textContent();
+      if (text) descriptions.push(text);
+    }
+
+    return descriptions;
+  }
 }
