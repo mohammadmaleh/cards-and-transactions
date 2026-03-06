@@ -1,9 +1,10 @@
+import { type ReactNode } from "react";
 import { CardCarousel } from "@/features/cards";
 import { AmountFilter, TransactionList } from "@/features/transactions";
 import { useUrlState } from "@/shared/hooks";
 import { AppLayout } from "@/ui";
 
-function HomePage() {
+function HomePage(): ReactNode {
   const [selectedCardId] = useUrlState("card");
 
   return (

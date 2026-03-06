@@ -1,3 +1,4 @@
+import { type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { formatLocalizedAmount, getAmountDisplayProps } from "@/shared/utils"
 
@@ -6,7 +7,7 @@ type TransactionItemProps = {
   amount: number
 }
 
-function TransactionItem({ description, amount }: TransactionItemProps) {
+function TransactionItem({ description, amount }: TransactionItemProps): ReactNode {
   const formatted = formatLocalizedAmount(amount, "de-DE", "EUR")
   const { isExpense, isCredit, type, absolute } = getAmountDisplayProps(formatted)
 

@@ -2,14 +2,14 @@ import { cn } from "@/lib/utils";
 import { useUrlState } from "@/shared/hooks";
 import { useGetCardsQuery } from "@/store";
 import { BankCard, Skeleton } from "@/ui";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 
 const CARD_TYPE_LABEL: Record<string, string> = {
   private: "Private Card",
   business: "Business Card",
 };
 
-function CardCarouselSkeleton() {
+function CardCarouselSkeleton(): ReactNode {
   return (
     <section aria-label="Your cards" aria-busy="true">
       <div className="flex gap-4 overflow-x-auto px-4 pb-4 pt-1">
@@ -24,7 +24,7 @@ function CardCarouselSkeleton() {
   );
 }
 
-function CardCarousel() {
+function CardCarousel(): ReactNode {
   const [selectedCardId, setCardParams] = useUrlState("card");
   const { data: cards, isLoading, isError } = useGetCardsQuery(undefined, {
     refetchOnFocus: true,
@@ -37,7 +37,7 @@ function CardCarousel() {
     }
   }, [cards, selectedCardId, setCardParams]);
 
-  const handleCardSelect = (cardId: string) => {
+  const handleCardSelect = (cardId: string): void => {
     setCardParams({ card: cardId, filter: null });
   };
 

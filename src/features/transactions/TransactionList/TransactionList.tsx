@@ -13,7 +13,7 @@ function parseFilterParam(param: string): { mode: FilterMode; threshold: number 
   return { mode: "all", threshold: Number(param) }
 }
 
-function TransactionListSkeleton() {
+function TransactionListSkeleton(): ReactNode {
   return (
     <div data-testid="transaction-loading" role="status" aria-label="Loading transactions" aria-busy="true">
       <div className="flex flex-col gap-3">

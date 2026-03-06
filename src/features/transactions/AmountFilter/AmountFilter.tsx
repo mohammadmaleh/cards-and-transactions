@@ -1,32 +1,33 @@
-import { useState } from "react"
-import { z } from "zod"
-import { Input } from "@/ui"
-import { useUrlState } from "@/shared/hooks"
+import { useUrlState } from "@/shared/hooks";
+import { Input } from "@/ui";
+import { useState, type ReactNode } from "react";
+import { z } from "zod";
 
-const filterAmountSchema = z.string().refine(
-  (val) => val === "" || /^[+-]?\d+(\.\d+)?$/.test(val),
-  { message: "Enter a valid amount (e.g. 100, -100, +100)" }
-)
+const filterAmountSchema = z
+  .string()
+  .refine((val) => val === "" || /^[+-]?\d+(\.\d+)?$/.test(val), {
+    message: "Enter a valid amount (e.g. 100, -100, +100)",
+  });
 
-function AmountFilter() {
-  const [filterParam, setFilterParam] = useUrlState("filter")
-  const [inputValue, setInputValue] = useState(filterParam)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>()
+function AmountFilter(): ReactNode {
+  const [filterParam, setFilterParam] = useUrlState("filter");
+  const [inputValue, setInputValue] = useState<string>(filterParam);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value
-    setInputValue(raw)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const raw = e.target.value;
+    setInputValue(raw);
 
-    const result = filterAmountSchema.safeParse(raw)
+    const result = filterAmountSchema.safeParse(raw);
 
     if (!result.success) {
-      setErrorMessage(result.error.issues[0].message)
-      return
+      setErrorMessage(result.error.issues[0].message);
+      return;
     }
 
-    setErrorMessage(undefined)
-    setFilterParam({ filter: raw === "" ? null : raw })
-  }
+    setErrorMessage(undefined);
+    setFilterParam({ filter: raw === "" ? null : raw });
+  };
 
   return (
     <Input
@@ -39,7 +40,7 @@ function AmountFilter() {
       onChange={handleChange}
       errorMessage={errorMessage}
     />
-  )
+  );
 }
 
-export { AmountFilter }
+export { AmountFilter };

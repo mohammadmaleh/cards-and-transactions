@@ -8,7 +8,7 @@ interface AppLayoutProps {
   children: ReactNode;
 }
 
-function AppLayout({ children }: AppLayoutProps) {
+function AppLayout({ children }: AppLayoutProps): ReactNode {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavigate = (): void => {

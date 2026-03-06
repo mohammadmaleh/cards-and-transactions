@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import { type ButtonHTMLAttributes } from "react"
+import { type ButtonHTMLAttributes, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
@@ -38,7 +38,7 @@ function Button({
   type = "button",
   ref,
   ...props
-}: ButtonProps) {
+}: ButtonProps): ReactNode {
   return (
     <button
       ref={ref}

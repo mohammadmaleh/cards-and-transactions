@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { CardType } from "@/types/card";
 
@@ -13,7 +14,7 @@ type BankCardProps = {
   type: CardType;
 };
 
-function BankCard({ type }: BankCardProps) {
+function BankCard({ type }: BankCardProps): ReactNode {
   const { label, gradient } = CARD_CONFIG[type];
 
   return (

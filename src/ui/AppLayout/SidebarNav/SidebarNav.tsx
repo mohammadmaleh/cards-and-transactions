@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { CreditCard } from "lucide-react";
 import { NavLink } from "react-router";
@@ -6,7 +7,7 @@ interface SidebarNavProps {
   onNavigate?: () => void;
 }
 
-function SidebarNav({ onNavigate }: SidebarNavProps) {
+function SidebarNav({ onNavigate }: SidebarNavProps): ReactNode {
   return (
     <nav aria-label="Main" className="flex-1 px-3 py-4">
       <ul role="list" className="flex flex-col gap-1">

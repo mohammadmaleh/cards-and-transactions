@@ -1,4 +1,4 @@
-import { type InputHTMLAttributes } from "react"
+import { type InputHTMLAttributes, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -8,7 +8,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   ref?: React.Ref<HTMLInputElement>
 }
 
-function Input({ label, errorMessage, className, id, ref, ...props }: InputProps) {
+function Input({ label, errorMessage, className, id, ref, ...props }: InputProps): ReactNode {
   const errorId = `${id}-error`
 
   return (
