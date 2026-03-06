@@ -27,36 +27,48 @@ DKB Code Factory frontend coding challenge
 ## Quick Start
 
 Install dependencies:
+
+```bash
 npm install
-
 Development server:
+
+bash
 npm run dev
-
 Run unit tests:
+
+bash
 npm test
-
 Run tests in watch mode:
+
+bash
 npm run test:watch
-
 Generate test coverage:
+
+bash
 npm run test:coverage
-
 Run E2E tests:
+
+bash
 npm run test:e2e
-
 Run E2E tests with UI:
+
+bash
 npm run test:e2e:ui
-
 View E2E test report:
+
+bash
 npm run test:e2e:report
-
 Launch Storybook:
+
+bash
 npm run storybook
-
 Build for production:
-npm run build
 
+bash
+npm run build
 Lint code:
+
+bash
 npm run lint
 
 ## Project Structure
@@ -174,9 +186,10 @@ npm run lint
 
 Repository: https://github.com/mohammadmaleh/cards-and-transactions
 
-Note: I spent more than 4 hours building this project, to be able to show how I would structure a frontend application on enterprice level 
+Note: I spent more than 4 hours building this project, to be able to show how I would structure a frontend application on enterprice level
 I worked around 16 hours on it.
 
-sorry for the long review :) 
+sorry for the long review :)
 
 Submitted by: Mohammad Al Maleh
+```
