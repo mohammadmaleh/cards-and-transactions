@@ -15,11 +15,8 @@ vi.mock("@/services", () => ({
 
 describe("CardCarousel", () => {
   it("shows a loading skeleton initially", () => {
-    renderWithProviders(<CardCarousel />);
-    expect(screen.getByRole("region", { name: "Your cards" })).toHaveAttribute(
-      "aria-busy",
-      "true",
-    );
+    const { container } = renderWithProviders(<CardCarousel />);
+    expect(container.querySelectorAll(".animate-pulse")).toHaveLength(2);
   });
 
   it("renders all cards after loading", async () => {

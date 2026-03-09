@@ -12,3 +12,6 @@ export type { BankCardProps } from "./BankCard/BankCard"
 
 export { Skeleton } from "./Skeleton/Skeleton"
 export type { SkeletonProps } from "./Skeleton/Skeleton"
+
+export { Pagination } from "./Pagination/Pagination"
+export type { PaginationProps } from "./Pagination/Pagination"

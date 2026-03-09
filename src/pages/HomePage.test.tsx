@@ -1,18 +1,16 @@
 import { screen, waitFor } from "@testing-library/react";
 import { axe } from "jest-axe";
+import { getTransactions } from "@/services";
 import { renderWithProviders } from "@/test/renderWithProviders";
 import { HomePage } from "./HomePage";
 
-vi.mock("@/services", () => ({
-  getCards: vi.fn().mockResolvedValue([
-    { id: "card-1", type: "private" },
-    { id: "card-2", type: "business" },
-  ]),
-  getTransactions: vi.fn().mockResolvedValue([
-    { id: "t1", description: "Food", amount: 123.88 },
-    { id: "t2", description: "Snack", amount: 33.48 },
-  ]),
-}));
+vi.mock("@/services", async () => {
+  const { mockCards, mockTransactions } = await import("@/test/mocks")
+  return {
+    getCards: vi.fn().mockResolvedValue(mockCards),
+    getTransactions: vi.fn().mockResolvedValue(mockTransactions),
+  }
+});
 
 describe("HomePage", () => {
   it("renders the card carousel", async () => {
@@ -24,9 +22,11 @@ describe("HomePage", () => {
     });
   });
 
-  it("renders the amount filter", () => {
+  it("renders the amount filter once a card with transactions is selected", async () => {
     renderWithProviders(<HomePage />);
-    expect(screen.getByLabelText("Amount Filter")).toBeVisible();
+    await waitFor(() => {
+      expect(screen.getByLabelText("Amount Filter")).toBeVisible();
+    });
   });
 
   it("renders transactions after a card is selected", async () => {
@@ -41,6 +41,15 @@ describe("HomePage", () => {
     await waitFor(() => {
       expect(screen.getByRole("radio", { name: "Private Card" })).toBeChecked();
       expect(screen.getByText("Food")).toBeVisible();
+    });
+  });
+
+  it("shows the filter and an empty state when the selected card has no transactions", async () => {
+    vi.mocked(getTransactions).mockResolvedValueOnce([]);
+    renderWithProviders(<HomePage />, { initialUrl: "/?card=card-1" });
+    await waitFor(() => {
+      expect(screen.getByLabelText("Amount Filter")).toBeInTheDocument();
+      expect(screen.getByText("No transactions found for this card.")).toBeVisible();
     });
   });
 

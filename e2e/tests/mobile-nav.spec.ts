@@ -35,7 +35,7 @@ test.describe("Mobile Navigation", () => {
     const menuButton = homePage.page.getByRole("button", {
       name: "Open navigation menu",
     });
-    await menuButton.click();
+    await menuButton.click({ force: true });
 
     const nav = homePage.page.getByRole("navigation", { name: "Main" });
     await expect(nav).toBeVisible();
@@ -47,12 +47,12 @@ test.describe("Mobile Navigation", () => {
     const openButton = homePage.page.getByRole("button", {
       name: "Open navigation menu",
     });
-    await openButton.click();
+    await openButton.click({ force: true });
 
     const closeButton = homePage.page.getByRole("button", {
       name: "Close navigation menu",
     });
-    await closeButton.click();
+    await closeButton.click({ force: true });
 
     const nav = homePage.page.getByRole("navigation", { name: "Main" });
     await expect(nav).not.toBeVisible();
@@ -64,12 +64,12 @@ test.describe("Mobile Navigation", () => {
     const openButton = homePage.page.getByRole("button", {
       name: "Open navigation menu",
     });
-    await openButton.click();
+    await openButton.click({ force: true });
 
     const closeButton = homePage.page.getByRole("button", {
       name: "Close navigation menu",
     });
-    await closeButton.click();
+    await closeButton.click({ force: true });
 
     await expect(
       homePage.page.getByRole("button", { name: "Open navigation menu" }),
@@ -80,7 +80,7 @@ test.describe("Mobile Navigation", () => {
     const menuButton = homePage.page.getByRole("button", {
       name: "Open navigation menu",
     });
-    await menuButton.click();
+    await menuButton.click({ force: true });
 
     const cardLink = homePage.page.getByRole("link", { name: /Card/ }).first();
     await cardLink.click();

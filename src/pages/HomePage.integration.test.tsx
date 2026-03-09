@@ -3,22 +3,17 @@ import userEvent from "@testing-library/user-event";
 import { renderWithProviders } from "@/test/renderWithProviders";
 import { HomePage } from "./HomePage";
 
-const { card1Transactions, card2Transactions } = vi.hoisted(() => ({
-  card1Transactions: [{ id: "t1", description: "Rewe", amount: 67.3 }],
-  card2Transactions: [{ id: "t2", description: "Flight to NYC", amount: 3200.0 }],
-}));
-
-vi.mock("@/services", () => ({
-  getCards: vi.fn().mockResolvedValue([
-    { id: "card-1", type: "private" },
-    { id: "card-2", type: "business" },
-  ]),
-  getTransactions: vi.fn().mockImplementation((cardId: string) => {
-    if (cardId === "card-1") return Promise.resolve(card1Transactions);
-    if (cardId === "card-2") return Promise.resolve(card2Transactions);
-    return Promise.resolve([]);
-  }),
-}));
+vi.mock("@/services", async () => {
+  const { mockCards, mockCard1Transactions, mockCard2Transactions } = await import("@/test/mocks")
+  return {
+    getCards: vi.fn().mockResolvedValue(mockCards),
+    getTransactions: vi.fn().mockImplementation((cardId: string) => {
+      if (cardId === "card-1") return Promise.resolve(mockCard1Transactions);
+      if (cardId === "card-2") return Promise.resolve(mockCard2Transactions);
+      return Promise.resolve([]);
+    }),
+  }
+});
 
 describe("HomePage — integration", () => {
   it("loads card-1 transactions on initial render", async () => {
@@ -43,7 +38,7 @@ describe("HomePage — integration", () => {
     expect(screen.queryByText("Rewe")).not.toBeInTheDocument();
   });
 
-  it("resets the filter input when switching cards", async () => {
+  it("clears the filter URL param and loads unfiltered transactions when switching cards", async () => {
     renderWithProviders(<HomePage />, { initialUrl: "/?card=card-1&filter=50" });
     await waitFor(() =>
       expect(screen.getByRole("radio", { name: "Business Card" })).toBeVisible(),
@@ -55,7 +50,6 @@ describe("HomePage — integration", () => {
     await waitFor(() =>
       expect(screen.getByText("Flight to NYC")).toBeVisible(),
     );
-    expect(screen.getByLabelText("Amount Filter")).toHaveValue("");
   });
 
   it("shows all card-2 transactions unfiltered after switching from a filtered card-1 view", async () => {

@@ -1,21 +1,18 @@
 import { screen, waitFor } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { axe } from "jest-axe"
 import { getTransactions } from "@/services"
+import { mockManyTransactions } from "@/test/mocks"
 import { renderWithProviders } from "@/test/renderWithProviders"
 import { TransactionList } from "./TransactionList"
 
-const { mockTransactions } = vi.hoisted(() => ({
-  mockTransactions: [
-    { id: "t1", description: "Food", amount: 123.88 },
-    { id: "t2", description: "Snack", amount: 33.48 },
-    { id: "t3", description: "Refund for Smart Phone", amount: -100 },
-  ],
-}))
-
-vi.mock("@/services", () => ({
-  getCards: vi.fn().mockResolvedValue([]),
-  getTransactions: vi.fn().mockResolvedValue(mockTransactions),
-}))
+vi.mock("@/services", async () => {
+  const { mockTransactions } = await import("@/test/mocks")
+  return {
+    getCards: vi.fn().mockResolvedValue([]),
+    getTransactions: vi.fn().mockResolvedValue(mockTransactions),
+  }
+})
 
 describe("TransactionList", () => {
   it("shows a loading skeleton when no card is selected", () => {
@@ -109,5 +106,81 @@ describe("TransactionList", () => {
     })
     await waitFor(() => expect(screen.getByText("Food")).toBeVisible())
     expect(await axe(container)).toHaveNoViolations()
+  })
+
+  it("does not render pagination when transactions fit on one page", async () => {
+    renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+    await waitFor(() => expect(screen.getByText("Food")).toBeVisible())
+    expect(
+      screen.queryByRole("navigation", { name: "Pagination" }),
+    ).not.toBeInTheDocument()
+  })
+
+  describe("pagination", () => {
+    beforeEach(() => {
+      vi.mocked(getTransactions).mockResolvedValue(mockManyTransactions)
+    })
+
+    it("shows only 10 transactions on the first page", async () => {
+      renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 1")).toBeVisible(),
+      )
+      expect(screen.getByText("Transaction 10")).toBeVisible()
+      expect(screen.queryByText("Transaction 11")).not.toBeInTheDocument()
+    })
+
+    it("renders pagination controls when transactions exceed page size", async () => {
+      renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+      await waitFor(() =>
+        expect(
+          screen.getByRole("navigation", { name: "Pagination" }),
+        ).toBeVisible(),
+      )
+    })
+
+    it("navigating to the next page shows the next set of transactions", async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 1")).toBeVisible(),
+      )
+      await user.click(screen.getByRole("button", { name: "Go to next page" }))
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 11")).toBeVisible(),
+      )
+      expect(screen.queryByText("Transaction 1")).not.toBeInTheDocument()
+    })
+
+    it("navigating back to page 1 shows the first set of transactions", async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<TransactionList />, { initialUrl: "/?card=card-1" })
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 1")).toBeVisible(),
+      )
+      await user.click(screen.getByRole("button", { name: "Go to next page" }))
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 11")).toBeVisible(),
+      )
+      await user.click(
+        screen.getByRole("button", { name: "Go to previous page" }),
+      )
+      await waitFor(() =>
+        expect(screen.getByText("Transaction 1")).toBeVisible(),
+      )
+      expect(screen.queryByText("Transaction 11")).not.toBeInTheDocument()
+    })
+
+    it("has no accessibility violations with pagination", async () => {
+      const { container } = renderWithProviders(<TransactionList />, {
+        initialUrl: "/?card=card-1",
+      })
+      await waitFor(() =>
+        expect(
+          screen.getByRole("navigation", { name: "Pagination" }),
+        ).toBeVisible(),
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })

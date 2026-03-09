@@ -36,6 +36,22 @@ export class HomePage {
     return this.page.getByRole("link", { name: "Skip to main content" });
   }
 
+  get pagination(): Locator {
+    return this.page.getByRole("navigation", { name: "Pagination" });
+  }
+
+  get nextPageButton(): Locator {
+    return this.page.getByRole("button", { name: "Go to next page" });
+  }
+
+  get previousPageButton(): Locator {
+    return this.page.getByRole("button", { name: "Go to previous page" });
+  }
+
+  pageButton(n: number): Locator {
+    return this.page.getByRole("button", { name: `Page ${n}` });
+  }
+
   cardRadio(cardId: string): Locator {
     return this.page.getByTestId(`card-radio-${cardId}`);
   }
@@ -64,10 +80,13 @@ export class HomePage {
 
   async waitForTransactionsLoaded(): Promise<void> {
     await expect(this.transactionLoading).not.toBeVisible({ timeout: 5_000 });
+    await expect(
+      this.transactionList.or(this.transactionEmpty).or(this.transactionError),
+    ).toBeVisible({ timeout: 5_000 });
   }
 
   async selectCard(cardId: string): Promise<void> {
-    await this.page.locator(`label[for="card-${cardId}"]`).click();
+    await this.cardRadio(cardId).click();
     await this.urlContainsCard(cardId);
   }
 
@@ -77,6 +96,7 @@ export class HomePage {
 
   async clearFilter(): Promise<void> {
     await this.amountFilterInput.fill("");
+    await expect(this.page).not.toHaveURL(/filter=/, { timeout: 5_000 });
   }
 
   async getTransactionCount(): Promise<number> {

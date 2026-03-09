@@ -1,6 +1,6 @@
 import { useUrlState } from "@/shared/hooks";
 import { Input } from "@/ui";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { z } from "zod";
 
 const filterAmountSchema = z
@@ -13,6 +13,10 @@ function AmountFilter(): ReactNode {
   const [filterParam, setFilterParam] = useUrlState("filter");
   const [inputValue, setInputValue] = useState<string>(filterParam);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+
+  useEffect(() => {
+    setInputValue(filterParam);
+  }, [filterParam]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const raw = e.target.value;

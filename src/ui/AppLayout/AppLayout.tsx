@@ -23,7 +23,7 @@ function AppLayout({ children }: AppLayoutProps): ReactNode {
       >
         Skip to main content
       </a>
-      <div className="flex md:h-dvh md:overflow-hidden">
+      <div className="flex h-dvh overflow-hidden">
         <aside
           className="fixed left-0 top-0 hidden h-screen w-52 flex-col border-r bg-white md:flex"
           aria-label="Sidebar"

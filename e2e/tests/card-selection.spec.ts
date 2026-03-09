@@ -31,8 +31,8 @@ test.describe("Card Selection", () => {
     loadedHomePage,
   }) => {
     await loadedHomePage.selectCard(CARDS.BUSINESS_1.id);
-    // await loadedHomePage.cardIsSelected(CARDS.BUSINESS_1.id);
-    // await expect(loadedHomePage.cardRadio(CARDS.PRIVATE_1.id)).not.toBeChecked();
+    await loadedHomePage.cardIsSelected(CARDS.BUSINESS_1.id);
+    await expect(loadedHomePage.cardRadio(CARDS.PRIVATE_1.id)).not.toBeChecked();
   });
 
   test("selecting a card updates the URL with that card ID", async ({

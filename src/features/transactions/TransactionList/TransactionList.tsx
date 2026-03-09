@@ -1,17 +1,20 @@
+import { CARD_ACCENT } from "@/shared/constants";
 import { useUrlState } from "@/shared/hooks";
-import { useGetTransactionsQuery } from "@/store";
-import { Skeleton } from "@/ui";
-import { useMemo, type ReactNode } from "react";
+import { useGetCardsQuery, useGetTransactionsQuery } from "@/store";
+import { Pagination, Skeleton } from "@/ui";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useDebounce } from "use-debounce";
 import { TransactionItem } from "./TransactionItem/TransactionItem";
 
-type FilterMode = "all" | "expenses" | "credits"
+const PAGE_SIZE = 10;
+
+type FilterMode = "all" | "expenses" | "credits";
 
 function parseFilterParam(param: string): { mode: FilterMode; threshold: number } {
-  if (!param) return { mode: "all", threshold: 0 }
-  if (param.startsWith("+")) return { mode: "credits", threshold: Number(param.slice(1)) }
-  if (param.startsWith("-")) return { mode: "expenses", threshold: Number(param.slice(1)) }
-  return { mode: "all", threshold: Number(param) }
+  if (!param) return { mode: "all", threshold: 0 };
+  if (param.startsWith("+")) return { mode: "credits", threshold: Number(param.slice(1)) };
+  if (param.startsWith("-")) return { mode: "expenses", threshold: Number(param.slice(1)) };
+  return { mode: "all", threshold: Number(param) };
 }
 
 function TransactionListSkeleton(): ReactNode {
@@ -31,17 +34,22 @@ const TransactionList = (): ReactNode => {
   const [filterParam] = useUrlState("filter");
   const [debouncedCardId] = useDebounce(selectedCardId, 300);
 
-  const {
-    data: transactions,
-    isLoading,
-    isError,
-  } = useGetTransactionsQuery(debouncedCardId, {
-    skip: !debouncedCardId,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
-  });
+  const { data: cards } = useGetCardsQuery(undefined);
+  const selectedCard = cards?.find((c) => c.id === selectedCardId);
+  const accentClass = selectedCard ? CARD_ACCENT[selectedCard.type] : undefined;
 
-  const { mode, threshold } = parseFilterParam(filterParam)
+  const { data: transactions, isLoading, isError } = useGetTransactionsQuery(
+    debouncedCardId,
+    { skip: !debouncedCardId },
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterParam, debouncedCardId]);
+
+  const { mode, threshold } = parseFilterParam(filterParam);
   const filteredTransactions = useMemo(
     () =>
       (transactions ?? []).filter((t) => {
@@ -78,6 +86,12 @@ const TransactionList = (): ReactNode => {
     );
   }
 
+  const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / PAGE_SIZE));
+  const paginatedTransactions = filteredTransactions.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
   return (
     <>
       <p className="sr-only" aria-live="polite" aria-atomic="true">
@@ -90,15 +104,23 @@ const TransactionList = (): ReactNode => {
         tabIndex={0}
       >
         <ul data-testid="transaction-list" role="list" className="flex flex-col gap-3 p-0.5">
-          {filteredTransactions.map((transaction) => (
+          {paginatedTransactions.map((transaction) => (
             <TransactionItem
               description={transaction.description}
               key={transaction.id}
               amount={transaction.amount}
+              accentClass={accentClass}
             />
           ))}
         </ul>
       </div>
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </>
   );
 };

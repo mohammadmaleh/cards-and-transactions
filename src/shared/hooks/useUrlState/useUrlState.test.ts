@@ -40,36 +40,28 @@ describe("useUrlState", () => {
   });
 
   it("does not affect other params when updating one key", () => {
-    const { result: cardResult } = renderHook(
-      () => useUrlState("card", ""),
-      { wrapper }
-    );
-    const { result: filterResult } = renderHook(
-      () => useUrlState("filter", ""),
+    const { result } = renderHook(
+      () => ({ card: useUrlState("card", ""), filter: useUrlState("filter", "") }),
       { wrapper }
     );
     act(() => {
-      cardResult.current[1]({ card: "card-uuid-123" });
+      result.current.card[1]({ card: "card-uuid-123" });
     });
-    expect(filterResult.current[0]).toBe("");
+    expect(result.current.filter[0]).toBe("");
   });
 
   it("updates multiple params atomically", () => {
-    const { result: cardResult } = renderHook(
-      () => useUrlState("card", ""),
-      { wrapper }
-    );
-    const { result: filterResult } = renderHook(
-      () => useUrlState("filter", ""),
+    const { result } = renderHook(
+      () => ({ card: useUrlState("card", ""), filter: useUrlState("filter", "") }),
       { wrapper }
     );
     act(() => {
-      cardResult.current[1]({ filter: "50" });
+      result.current.card[1]({ filter: "50" });
     });
     act(() => {
-      cardResult.current[1]({ card: "card-uuid-456", filter: null });
+      result.current.card[1]({ card: "card-uuid-456", filter: null });
     });
-    expect(cardResult.current[0]).toBe("card-uuid-456");
-    expect(filterResult.current[0]).toBe("");
+    expect(result.current.card[0]).toBe("card-uuid-456");
+    expect(result.current.filter[0]).toBe("");
   });
 });

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useSearchParams } from "react-router";
 
 export const useUrlState = (
@@ -8,16 +9,19 @@ export const useUrlState = (
 
   const value = searchParams.get(key) ?? defaultValue;
 
-  const setValue = (updates: Record<string, string | null>) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      for (const [k, v] of Object.entries(updates)) {
-        if (v === null) next.delete(k);
-        else next.set(k, v);
-      }
-      return next;
-    });
-  };
+  const setValue = useCallback(
+    (updates: Record<string, string | null>) => {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        for (const [k, v] of Object.entries(updates)) {
+          if (v === null) next.delete(k);
+          else next.set(k, v);
+        }
+        return next;
+      });
+    },
+    [setSearchParams],
+  );
 
   return [value, setValue];
 };

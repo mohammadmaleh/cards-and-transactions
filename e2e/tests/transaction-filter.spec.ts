@@ -76,10 +76,10 @@ test.describe("Transaction Filter", () => {
     await expect(homePage.transactionEmpty).toBeVisible();
 
     await homePage.clearFilter();
-    await homePage.waitForTransactionsLoaded();
 
-    const count = await homePage.getTransactionCount();
-    expect(count).toBe(TRANSACTIONS[CARDS.BUSINESS_1.id].count);
+    await expect(homePage.transactionItems()).toHaveCount(
+      TRANSACTIONS[CARDS.BUSINESS_1.id].count,
+    );
   });
 
   test("negative prefix filters only expenses", async ({ homePage }) => {
