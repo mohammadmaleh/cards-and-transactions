@@ -101,6 +101,7 @@ src/
 │   ├── Button/          # Button with variant system (default, outline, ghost, icons)
 │   ├── Input/           # Input reusable component
 │   ├── Skeleton/        # Loading skeleton
+│   ├── Pagination/      # Pagination component
 │   └── AppLayout/       # Responsive layout
 ├── features/
 │   ├── cards/
@@ -111,6 +112,7 @@ src/
 ├── shared/
 │   ├── hooks/
 │   │   └── useUrlState/     # URL-synced state with bulk update support
+│   ├── constants/           # Shared constants (card type labels, accent classes)
 │   └── utils/
 │       └── amount/          # formatLocalizedAmount
 ├── services/
@@ -154,7 +156,6 @@ e2e/
 
 - Separate createApi per domain with dedicated reducer paths
 - cardsApi and transactionsApi live in their respective store folders
-- Each API supports refetchOnFocus and refetchOnReconnect
 
 **Type Safety & Code Quality**
 
@@ -191,14 +192,14 @@ e2e/
 
 - Unit: Every component has .test.tsx with jest-axe accessibility check
 - Integration: HomePage.integration.test.tsx tests full feature flow
-- E2E: 5 Playwright suites with Page Object Model pattern
+- E2E: 6 Playwright suites with Page Object Model pattern
 - Custom renderWithProviders() for Redux-connected components
 
 ## What Would Be Improved With More Time
 
 **Features**
 
-- Server-side pagination, currently the transaction can be infinite and it can cause performance issues, a pagination logic should be implemented
+- Server-side pagination for improved performance with large datasets
 - Multi-filter support: category, date range, merchant, transaction type
 - Sort options: date, amount, description (ascending/descending)
 - Transaction search with debounced input
